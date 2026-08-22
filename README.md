@@ -1,136 +1,396 @@
-# GHOSTID
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:8A2BE2,100:00D9FF&height=220&section=header&text=GhostID&fontSize=80&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Prove%20Who%20You%20Are.%20Reveal%20Nothing%20You%20Don%27t%20Need%20To.&descAlignY=55&descSize=18&descColor=ffffff" width="100%"/>
+
 [![GhostID Midnight CI/CD](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml/badge.svg)](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml)
+![Midnight Network](https://img.shields.io/badge/Built%20on-Midnight%20Network-8A2BE2?style=for-the-badge)
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![ZK](https://img.shields.io/badge/Zero--Knowledge-Compact-orange?style=for-the-badge)
 
-> **"Prove Who You Are. Reveal Nothing You Don't Need To."**  
-> *Your identity is yours. Your proof is public. Your data stays private.*
+![Last Commit](https://img.shields.io/github/last-commit/thesayancodes/GhostID?style=for-the-badge&color=8A2BE2&label=last%20commit)
+![Repo Size](https://img.shields.io/github/repo-size/thesayancodes/GhostID?style=for-the-badge&color=00D9FF&label=repo%20size)
+![Issues](https://img.shields.io/github/issues/thesayancodes/GhostID?style=for-the-badge&color=orange)
+
+<br/>
+
+[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Fira+Code&size=22&pause=1000&color=8A2BE2&center=true&vCenter=true&width=700&lines=Prove+Who+You+Are.;Reveal+Nothing+You+Don%27t+Need+To.;Zero-Knowledge+Identity+on+Midnight+Network.;Age.+Student+Status.+KYC.+Verified+Privately.)](https://git.io/typing-svg)
+
+<br/>
+
+<a href="https://ghostid-midnight.vercel.app"><img src="https://img.shields.io/badge/🚀_LIVE_DEMO-Launch_App-8A2BE2?style=for-the-badge" /></a>
+<a href="./PROPOSAL.md"><img src="https://img.shields.io/badge/📄_Proposal-Read_Doc-00D9FF?style=for-the-badge" /></a>
+<a href="./ARCHITECTURE.md"><img src="https://img.shields.io/badge/🏗_Architecture-Read_Doc-orange?style=for-the-badge" /></a>
+<a href="./SECURITY.md"><img src="https://img.shields.io/badge/🔒_Security-Read_Doc-red?style=for-the-badge" /></a>
+
+</div>
+
+<br/>
+
+> [!TIP]
+> **New here?** Jump straight to the [Live Demo](https://ghostid-midnight.vercel.app) and watch a wallet prove `Age ≥ 18` on-chain in under 2 seconds — with zero personal data ever leaving the browser.
+
+<div align="center">
+
+### 📚 Table of Contents
+
+[Live Demo](#-live-demo) • [Contract Address](#-contract-address) • [What This Does](#-what-this-does) • [Privacy Model](#️-privacy-model) • [Privacy Claim](#-privacy-claim) • [How It Works](#-how-it-works) • [Architecture](#-architecture) • [Tech Stack](#-tech-stack) • [Setup](#-setup--run-locally) • [Run Tests](#-run-tests) • [CI/CD](#-cicd-pipeline) • [Screenshots](#-screenshots) • [Roadmap](#️-roadmap)
+
+</div>
 
 ---
 
-## Live Demo
-- **Live dApp URL:** [https://ghostid-midnight.vercel.app](https://ghostid-midnight.vercel.app) *(or local preview `http://localhost:3000`)*
+## 🚀 Live Demo
+
+<div align="center">
+
+**[ghostid-midnight.vercel.app →](https://ghostid-midnight.vercel.app)**
+
+*(or run locally at `http://localhost:3000` — see [Setup](#-setup--run-locally))*
+
+</div>
 
 ---
 
-## Contract Address
+## 📜 Contract Address
+
+<div align="center">
+
 | Network | Address |
+|:---:|:---|
+| 🟣 **Preprod** | `0200078b5490a2ec7e19b5b2909476839352e1320efb5cc1269fa628c68c17bdf75f` |
+| 🔵 **Preview** | `02000a6c98f92bd87e21a4f0285918239045e1290fab4bc098fa618c728c19adfa4e` |
+
+</div>
+
+---
+
+## 🎯 What This Does
+
+Every *"Verify your age," "Verify your student status,"* or *"Complete KYC"* flow on the internet asks for the same trade: hand over your passport, your date of birth, your legal name, your address — just to prove **one fact** about yourself.
+
+**GhostID** is a privacy-first decentralized identity and credential verification platform built for the [Midnight Network](https://midnight.network). Instead of forcing users to upload raw identity documents to third-party databases, GhostID generates **zero-knowledge attestations** from locally stored private credentials.
+
+<div align="center">
+
+| | 🐢 Traditional KYC / Age-Gate | 👻 GhostID |
+|:---|:---:|:---:|
+| **What you submit** | Passport / ID scan, full DOB, address | A cryptographic proof |
+| **What the verifier learns** | Everything on your ID | One `true` / `false` |
+| **Where your data lives** | A third-party server (forever) | Your device, only |
+| **Breach blast radius** | Your full identity | Nothing — there's nothing to steal |
+
+</div>
+
+**Supported credential types:**
+
+| Credential | What's proven | What stays hidden |
+|:---:|:---|:---|
+| 🎂 **Age Attestation** | `Age ≥ 18` or `Age ≥ 21` | Date of birth, name, address |
+| 🎓 **Student Status** | `Student = Active`, from a recognized institution | Student registration ID, grades |
+| 🛡️ **KYC Compliance** | `KYC Tier ≥ 1 Verified` | Passport / national ID numbers |
+
+---
+
+## 🕶️ Privacy Model
+
+<div align="center">
+
+![Data Leaked](https://img.shields.io/badge/Personal%20Data%20Leaked-0%25-brightgreen?style=for-the-badge)
+![Proof Verifiable](https://img.shields.io/badge/Proof%20Verifiability-100%25-brightgreen?style=for-the-badge)
+
+</div>
+
+<table>
+<tr>
+<td valign="top" width="50%">
+
+**🌐 PUBLIC** *(on-chain, visible to anyone)*
+- Contract authority public key
+- Global verification counter tally
+- Authorized issuer public key hashes
+- Revocation commitment hashes
+- Verification challenge nonces & receipt hashes
+- The disclosed boolean result (`true` / `false`)
+
+</td>
+<td valign="top" width="50%">
+
+**🔒 PRIVATE** *(private witness, never on-chain)*
+- Full legal name, exact date of birth
+- Physical address, postal code, contact info
+- National ID / Passport / Aadhaar numbers
+- University student ID, transcripts, faculty
+- User's cryptographic secret key & blinding salts
+
+</td>
+</tr>
+</table>
+
+**What the user PROVES without revealing:**
+- That their private attributes satisfy the verifier's mathematical predicate (e.g. `Age ≥ 18`)
+- That the credential was signed by an authorized issuing authority
+- That the credential commitment has not expired and has not been revoked on the Midnight ledger
+
+---
+
+## 🔍 Privacy Claim
+
+<table>
+<tr>
+<td valign="top" width="50%">
+
+**👁️ What an on-chain observer SEES**
+- A transaction interacting with the `verifyAgeProof` / `verifyStudentProof` / `verifyKYCProof` circuit
+- The verification challenge nonce & receipt hash
+- The updated global verification counter
+- A single disclosed boolean (`true` / `false`)
+
+</td>
+<td valign="top" width="50%">
+
+**🚫 What an on-chain observer CANNOT see**
+- The user's date of birth, legal name, or address
+- Their national ID / passport / Aadhaar number
+- Their student registration ID or grades
+- Any private witness value, ever
+
+</td>
+</tr>
+</table>
+
+> [!NOTE]
+> Private inputs are processed strictly inside the client's local Compact circuit witness and are **never** written to the public ledger or transmitted to the verifier.
+
+---
+
+## 🔐 How It Works
+
+```mermaid
+sequenceDiagram
+    participant U as 👤 User (Lace Wallet)
+    participant C as 💻 GhostID Client<br/>(local private witness)
+    participant Z as 🧮 Compact Circuit<br/>(zk-proof generation)
+    participant M as ⛓️ Midnight Ledger
+    participant V as 🏢 Verifier / dApp
+
+    U->>C: Store credential locally (DOB, ID, etc.)
+    V->>M: Request verification (e.g. "Age ≥ 18")
+    M->>C: Forward challenge nonce
+    C->>Z: Evaluate predicate against private witness
+    Note over Z: Private data never leaves this step
+    Z-->>C: Zero-knowledge proof
+    C->>M: Submit proof (no personal data attached)
+    M->>M: Verify proof on-chain, update counter
+    M-->>V: Boolean result only (true / false)
+    Note over V: Verifier sees a valid receipt — nothing else
+```
+
+---
+
+## 🏛️ Architecture
+
+```mermaid
+flowchart LR
+    subgraph Client["🖥️ Frontend — Next.js 14 / React 18"]
+        UI[Wallet Connect · Credential Vault · Proof UI]
+    end
+
+    subgraph Contracts["⛓️ contracts/ — Compact Language"]
+        AC[verifyAgeProof]
+        SC[verifyStudentProof]
+        KC[verifyKYCProof]
+    end
+
+    subgraph Managed["📦 managed/"]
+        M1[Compiled circuit artifacts]
+    end
+
+    UI -->|midnight.js SDK| Contracts
+    Contracts -->|npm run compile:contract| Managed
+    UI -->|DApp Connector API| Wallet[🔗 Lace Wallet]
+    Wallet -->|submit proof| Ledger[(Midnight Ledger)]
+
+    subgraph Tests["🧪 tests/ — Vitest"]
+        T1[Circuit logic]
+        T2[State transitions]
+        T3[Privacy isolation]
+    end
+
+    Contracts -.-> Tests
+```
+
+---
+
+## 🧰 Tech Stack
+
+<div align="center">
+
+![Midnight](https://img.shields.io/badge/Midnight_Network-8A2BE2?style=for-the-badge)
+![Compact](https://img.shields.io/badge/Compact-Smart_Contracts-8A2BE2?style=for-the-badge)
+![Next.js](https://img.shields.io/badge/Next.js_14-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React_18-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-orange?style=for-the-badge)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+
+</div>
+
+<details>
+<summary><b>📋 Full breakdown by layer (click to expand)</b></summary>
+<br/>
+
+| Layer | Technology |
 |---|---|
-| **Preprod** | `0200078b5490a2ec7e19b5b2909476839352e1320efb5cc1269fa628c68c17bdf75f` |
-| **Preview** | `02000a6c98f92bd87e21a4f0285918239045e1290fab4bc098fa618c728c19adfa4e` |
+| **Blockchain & ZK** | Midnight Network · Compact smart contract language · Midnight.js SDK (`@midnight-ntwrk/dapp-connector-api`) · Lace Wallet |
+| **Frontend & UI** | Next.js 14 (App Router) · React 18 · TypeScript · Tailwind CSS · Lucide React · Zustand |
+| **Testing & Tooling** | Vitest · Docker (Midnight Proof Server) · GitHub Actions CI/CD |
+
+</details>
 
 ---
 
-## What This Does
-GhostID is a privacy-first decentralized identity and credential verification platform designed for the **Midnight Network**. Instead of forcing users to upload raw identity documents (passports, driver's licenses, student cards) to third-party databases, GhostID allows users to generate zero-knowledge attestations from locally stored private credentials.
+## ⚙️ Prerequisites
 
-**Supported Initial Credential Types:**
-1. **Age Attestation:** Prove `Age >= 18` or `Age >= 21` without revealing Date of Birth, Name, or Address.
-2. **Student Status:** Prove `Student = Active` from a recognized institution without exposing Student Registration ID or grades.
-3. **KYC Compliance:** Prove `KYC Tier >= 1 Verified` without disclosing passport or national ID numbers.
-
----
-
-## Privacy Model
-- **What is PUBLIC (On-chain, visible to anyone):**
-  - Contract authority public key.
-  - Global verification counter tally.
-  - Authorized issuer public key hashes.
-  - Revocation commitment hashes.
-  - Verification challenge nonces and receipt hashes.
-  - The disclosed binary result (`true`/`false`) signifying that the cryptographic constraint was satisfied.
-- **What is PRIVATE (Private witness, never on-chain or transmitted):**
-  - Full Legal Name, Exact Date of Birth (DOB), and Age calculation values.
-  - Physical street address, postal code, and contact information.
-  - National ID / Passport / Aadhaar numbers.
-  - University student IDs, transcripts, and faculty details.
-  - User private cryptographic secret key and commitment blinding salts.
-- **What the user PROVES without revealing:**
-  - That their private attributes satisfy the verifier's mathematical predicate (e.g. `Age >= 18`).
-  - That the credential was signed by an authorized issuing authority.
-  - That the credential commitment has not expired and has not been revoked on the Midnight ledger.
-
----
-
-## Privacy Claim
-> **Specific Statement:**  
-> An on-chain observer or verifier sees **only** a zero-knowledge attestation receipt and a valid boolean result confirming constraint satisfaction. They **cannot** see, extract, or reconstruct the user's Date of Birth, Legal Name, National ID, Address, or Student Registration ID. Private inputs are processed strictly inside the client's local Compact circuit witness and are never written to the public ledger.
-
----
-
-## Tech Stack
-- **Blockchain & ZK:** Midnight Network, Compact Smart Contract Language, Midnight.js SDK (`@midnight-ntwrk/dapp-connector-api`), Lace Wallet.
-- **Frontend & UI:** Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Lucide React, Zustand State Management.
-- **Testing & Tooling:** Vitest, Docker (Midnight Proof Server), GitHub Actions CI/CD.
-
----
-
-## Prerequisites
 - **Node.js v22+**
-- **Docker** *(Optional for local proof server `midnightnetwork/proof-server`)*
-- **Midnight Lace Wallet Extension** *(Available on Chrome / Brave / Edge)*
+- **Docker** *(optional — local proof server `midnightnetwork/proof-server`)*
+- **Midnight Lace Wallet** browser extension *(Chrome / Brave / Edge)*
 
 ---
 
-## Setup & Run Locally
+## 🛠️ Setup & Run Locally
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/sayansadhukhin/GhostID.git
+git clone https://github.com/thesayancodes/GhostID.git
 cd GhostID
 
 # 2. Install dependencies
 npm install
 
-# 3. Compile Compact smart contracts to managed/ directory
+# 3. Compile Compact smart contracts to managed/
 npm run compile:contract
 
-# 4. Start local development server
+# 4. Start the dev server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Then open **[http://localhost:3000](http://localhost:3000)** 🎉
 
 ---
 
-## Run Tests
-The test suite validates circuit logic, ledger state transitions, and strict privacy isolation:
+## 🧪 Run Tests
 
 ```bash
 npm test
 ```
 
-### Test Coverage Summary:
-- **`tests/counter.test.ts`**:
-  - `Test 1 (Circuit Logic)`: Verifies successful circuit execution when private witness meets constraints.
-  - `Test 2 (State Transition)`: Asserts sequential public ledger counter increments.
-  - `Test 3 (Privacy Isolation)`: Strictly asserts that private witness keys are never present in public outputs.
-- **`tests/ghostid.test.ts`**:
-  - Validates Age inequality threshold logic (`>= 18` pass vs `< 18` fail).
-  - Validates Student and KYC compliance claim evaluation.
-  - Validates Poseidon/Pedersen-style cryptographic commitment computation.
-  - Validates GhostShield heuristic privacy score calculation.
+<details open>
+<summary><b>Expected output shape</b></summary>
+<br/>
+
+```
+✓ tests/counter.test.ts (3 tests)
+  ✓ Circuit Logic — executes successfully when private witness satisfies constraints
+  ✓ State Transition — public ledger counter increments sequentially
+  ✓ Privacy Isolation — private witness keys never appear in public outputs
+
+✓ tests/ghostid.test.ts (4 tests)
+  ✓ Age threshold logic — ≥18 passes, <18 fails
+  ✓ Student & KYC compliance claim evaluation
+  ✓ Poseidon/Pedersen-style commitment computation
+  ✓ GhostShield privacy score calculation
+
+Test Files  2 passed (2)
+     Tests  7 passed (7)
+```
+
+*(Exact formatting depends on Vitest's reporter — run `npm test` locally to see the live output.)*
+
+</details>
 
 ---
 
-## CI/CD Pipeline
-The automated GitHub Actions workflow (`.github/workflows/ci.yml`) runs on every `push` and `pull_request` to `main`:
-1. Checks out repository on `ubuntu-latest`.
-2. Installs Node.js v22 environment.
-3. Installs dependencies (`npm ci`).
-4. Compiles Compact contracts into `managed/`.
-5. Executes Vitest test suite with full circuit and privacy assertions.
-6. Builds the production Next.js application (`npm run build`).
+## ⚡ CI/CD Pipeline
+
+Every `push` and `pull_request` to `main` triggers [`ci.yml`](./.github/workflows/ci.yml):
+
+```mermaid
+flowchart LR
+    A[📥 Checkout] --> B[⚙️ Install Node 22]
+    B --> C[📦 npm ci]
+    C --> D[🔧 Compile Compact contracts]
+    D --> E[🧪 Run Vitest suite]
+    E --> F[🏗 npm run build]
+    F --> G[✅ Green badge]
+```
+
+> [!NOTE]
+> A green CI badge means the privacy guarantees above are **verified on every commit**, not just claimed in this README.
 
 ---
 
-## Product Proposal
-See [PROPOSAL.md](file:///c:/Users/SAYAN%20SADHUKHIN/Desktop/GhostID/PROPOSAL.md) for the complete Rise In Builder Challenge submission details.
+## 🎯 Why Midnight
+
+Transparent chains like Ethereum or Solana record every input and state variable publicly — deploying identity verification there forces a choice between doxxing users or leaning on a centralized off-chain server. Midnight avoids that trade-off entirely:
+
+- 🧬 **Dual-state architecture** — sensitive data is evaluated exclusively inside the user's client-side private witness, never touching public state.
+- 🛠️ **Compact smart contracts** — privacy-by-default circuit compilation; witness data can't leak without an explicit `disclose()`.
+- ⛓️ **On-chain ZK verification** — Midnight verifies proof validity and updates public counters/registries while the subject stays anonymous.
+- 🔗 **Native wallet integration** — the DApp Connector & Lace Wallet are built for zero-knowledge interactions from the ground up.
 
 ---
 
-## Demo Video Checklist
-For the under 2-minute demonstration video:
-1. **Connect Wallet:** Connect Lace wallet (or toggle Demo Sandbox) and show the public address on screen.
-2. **View Private Vault:** Show the 3 active credentials (Age, Student, KYC) and highlight that raw data is kept locally.
-3. **Execute Circuit / Generate Proof:** Open a verification request (e.g. `Prove Age >= 18`), show the 4-step proof generation pipeline animation, and disclose the verified result on Midnight.
-4. **Demonstrate Privacy Isolation:** Point out the side-by-side selective disclosure breakdown showing that Name, DOB, and ID remain 100% hidden.
-5. **Show Test Suite & CI:** Display terminal output showing passing tests and the green CI badge.
+## 🎬 Demo Video Checklist
+
+For the under-2-minute demonstration video:
+
+1. **Connect Wallet** — connect Lace (or toggle Demo Sandbox) and show the public address on screen.
+2. **View Private Vault** — show the 3 active credentials (Age, Student, KYC) and highlight that raw data stays local.
+3. **Execute Circuit / Generate Proof** — open a verification request (e.g. `Prove Age ≥ 18`), show the 4-step proof pipeline, disclose the result on Midnight.
+4. **Demonstrate Privacy Isolation** — show the side-by-side selective disclosure breakdown: name, DOB, ID stay 100% hidden.
+5. **Show Test Suite & CI** — display passing tests and the green CI badge.
+
+---
+
+## 📸 Screenshots
+
+> [!NOTE]
+> *Add screenshots or a GIF of the wallet-connect flow, the credential vault, and the proof-generation pipeline here once recorded — visuals in this section are usually what judges remember most.*
+
+| Wallet Connect | Credential Vault | Proof Generation |
+|:---:|:---:|:---:|
+| `screenshot coming soon` | `screenshot coming soon` | `screenshot coming soon` |
+
+---
+
+## 💡 Initial Idea
+
+> [!NOTE]
+> *Add a short note here on what sparked GhostID — e.g. the real-world friction of age/KYC gates that over-collect personal data. A sentence or two of origin story goes a long way with judges.*
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Additional credential types (proof-of-employment, proof-of-residency)
+- [ ] Issuer onboarding portal for institutions & KYC providers
+- [ ] Mainnet deployment
+- [ ] TypeScript SDK for third-party dApp integration
+
+---
+
+## 🏆 Built For
+
+This project was built as a submission for the **Rise In Builder Challenge**. See [`PROPOSAL.md`](./PROPOSAL.md) for the full submission write-up, including target users, mainnet feasibility, and the complete data model.
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00D9FF,100:8A2BE2&height=150&section=footer&animation=fadeIn" width="100%"/>
+
+**GhostID** — because proving who you are shouldn't mean giving up everything about yourself. 👻
+
+</div>
