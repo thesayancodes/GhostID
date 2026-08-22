@@ -1,5 +1,5 @@
 # GHOSTID
-[![GhostID Midnight CI/CD](https://github.com/sayansadhukhin/GhostID/actions/workflows/ci.yml/badge.svg)](https://github.com/sayansadhukhin/GhostID/actions/workflows/ci.yml)
+[![GhostID Midnight CI/CD](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml/badge.svg)](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml)
 
 > **"Prove Who You Are. Reveal Nothing You Don't Need To."**  
 > *Your identity is yours. Your proof is public. Your data stays private.*
