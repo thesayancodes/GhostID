@@ -1,0 +1,63 @@
+// ============================================================================
+// COUNTER / PRIVACY ATTESTATION CONTRACT
+// Midnight Builder Challenge (Level 1, Level 2, Level 3)
+//
+// PRIVACY MODEL:
+// ----------------------------------------------------------------------------
+// 1. PUBLIC LEDGER STATE:
+//    - counter: Counter tracking the public verification tally
+//    - state: Public status flag
+//    - lastDisclosedHash: Hash of latest processed proof
+//
+// 2. PRIVATE WITNESS (Off-Chain Client Witness):
+//    - secretIncrement: Private salt/witness value provided by the user
+//    - userSecretKey: 32-byte secret key never revealed on-chain
+//
+// 3. WHAT THE USER PROVES:
+//    - User proves possession of a valid private witness satisfying
+//      cryptographic constraints without revealing the secret value itself.
+//    - deliberate disclose() publishes only the valid state transition boolean.
+// ============================================================================
+
+pragma language_version >= 0.16.0;
+
+import CompactStandardLibrary;
+
+// --- Public Ledger State ---
+export ledger counter: Counter;
+export ledger round: Counter;
+export ledger lastDisclosedHash: Bytes<32>;
+
+// --- Private Witness ---
+witness secretIncrement(): Uint<16>;
+witness userSecretKey(): Bytes<32>;
+
+// --- Circuits ---
+
+/**
+ * @notice Increments the public counter using a private witness
+ * @param challenge Public nonce/challenge from verifier
+ * @return result Disclosed success flag
+ */
+export circuit incrementWithProof(challenge: Bytes<32>): Boolean {
+  // Read private witness
+  const inc = secretIncrement();
+  const sk = userSecretKey();
+
+  // Assertion on private witness logic
+  assert(inc > 0, "Increment witness must be positive");
+
+  // Compute public commitment
+  const commitment = persistentHash<Vector<2, Bytes<32>>>([
+    sk,
+    challenge
+  ]);
+
+  // Update public ledger state
+  counter.increment(1);
+  round.increment(1);
+  lastDisclosedHash = commitment;
+
+  // Deliberate disclosure
+  return disclose(true);
+}

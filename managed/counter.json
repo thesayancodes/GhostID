@@ -1,0 +1,39 @@
+{
+  "contractName": "CounterContract",
+  "languageVersion": "0.16.0",
+  "circuits": [
+    {
+      "name": "incrementWithProof",
+      "inputs": [
+        "challenge"
+      ],
+      "returnType": "Boolean",
+      "discloses": true
+    }
+  ],
+  "ledgerFields": [
+    {
+      "name": "counter",
+      "type": "Counter"
+    },
+    {
+      "name": "round",
+      "type": "Counter"
+    },
+    {
+      "name": "lastDisclosedHash",
+      "type": "Bytes<32>"
+    }
+  ],
+  "witnesses": [
+    {
+      "name": "secretIncrement",
+      "returnType": "Uint<16>"
+    },
+    {
+      "name": "userSecretKey",
+      "returnType": "Bytes<32>"
+    }
+  ],
+  "compiledAt": "2026-08-22T14:32:40.494Z"
+}

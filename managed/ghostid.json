@@ -1,0 +1,75 @@
+{
+  "contractName": "GhostIDContract",
+  "languageVersion": "0.16.0",
+  "circuits": [
+    {
+      "name": "verifyAgeProof",
+      "inputs": [
+        "minRequiredAge",
+        "currentYear",
+        "verifierNonce"
+      ],
+      "returnType": "Boolean",
+      "discloses": true
+    },
+    {
+      "name": "verifyStudentProof",
+      "inputs": [
+        "institutionId",
+        "verifierNonce"
+      ],
+      "returnType": "Boolean",
+      "discloses": true
+    },
+    {
+      "name": "verifyKYCProof",
+      "inputs": [
+        "requiredTier",
+        "verifierNonce"
+      ],
+      "returnType": "Boolean",
+      "discloses": true
+    },
+    {
+      "name": "revokeCredential",
+      "inputs": [
+        "commitmentHash"
+      ],
+      "returnType": "Void",
+      "discloses": false
+    }
+  ],
+  "ledgerFields": [
+    {
+      "name": "authority",
+      "type": "Bytes<32>"
+    },
+    {
+      "name": "totalVerifications",
+      "type": "Counter"
+    },
+    {
+      "name": "validIssuers",
+      "type": "Map<Bytes<32>, Boolean>"
+    },
+    {
+      "name": "revokedCommitments",
+      "type": "Map<Bytes<32>, Boolean>"
+    },
+    {
+      "name": "activeVerificationReceipts",
+      "type": "Map<Bytes<32>, Uint<64>>"
+    }
+  ],
+  "witnesses": [
+    {
+      "name": "getPrivateIdentity",
+      "returnType": "PrivateIdentityWitness"
+    },
+    {
+      "name": "getCredentialSignature",
+      "returnType": "Bytes<64>"
+    }
+  ],
+  "compiledAt": "2026-08-22T14:32:40.473Z"
+}

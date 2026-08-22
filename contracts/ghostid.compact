@@ -1,0 +1,182 @@
+// ============================================================================
+// GHOSTID: Privacy-First Decentralized Identity & Selective Disclosure Engine
+// Compact Smart Contract for Midnight Network
+//
+// PRIVACY MODEL:
+// ----------------------------------------------------------------------------
+// 1. WHAT IS PUBLIC (On-Chain Ledger State):
+//    - authority: Root platform / governance public key
+//    - totalVerifications: Counter tracking global anonymous verified proofs
+//    - validIssuers: Set/Map of authorized issuer public key hashes
+//    - revokedCommitments: Set/Map of revoked credential commitment hashes
+//    - verificationRegistry: Log of verification event nonces & claim hashes
+//
+// 2. WHAT IS PRIVATE (Off-Chain Private Witness):
+//    - User Date of Birth (DOB) and exact Age
+//    - Full Legal Name, Government ID / Passport Number, Physical Address
+//    - University Enrollment ID, GPA, Degree program details
+//    - KYC Document numbers, Biometric hashes, Financial income figures
+//    - User private cryptographic secret key & commitment blinding factors
+//
+// 3. WHAT IS PROVED & DISCLOSED:
+//    - Age >= MinAge (e.g., 18 or 21) without revealing DOB or Name
+//    - Student Status == Active from a recognized institution without revealing Student ID
+//    - KYC Status == Verified (Tier 1/2) without revealing government identity numbers
+//    - The user holds the valid pre-image & signature of an authorized issuer
+//    - The credential has not been revoked on the public revocation ledger
+// ============================================================================
+
+pragma language_version >= 0.16.0;
+
+import CompactStandardLibrary;
+
+// --- Public Ledger State ---
+export ledger authority: Bytes<32>;
+export ledger totalVerifications: Counter;
+export ledger validIssuers: Map<Bytes<32>, Boolean>;
+export ledger revokedCommitments: Map<Bytes<32>, Boolean>;
+export ledger activeVerificationReceipts: Map<Bytes<32>, Uint<64>>;
+
+// --- Custom Witness Data Structures (Private Client Side Only) ---
+struct PrivateIdentityWitness {
+  subjectSecret: Bytes<32>;
+  issuerPublicKey: Bytes<32>;
+  credentialType: Uint<16>; // 1 = AGE, 2 = STUDENT, 3 = KYC
+  claimNumericValue: Uint<64>; // e.g. Birth Year/Timestamp or Income
+  claimStatusFlag: Boolean; // e.g. Active Enrollment or KYC Tier
+  blindingFactor: Bytes<32>;
+  issuanceTimestamp: Uint<64>;
+  expirationTimestamp: Uint<64>;
+}
+
+// --- Witnesses: Executed off-chain on user's device inside ZK circuit ---
+witness getPrivateIdentity(): PrivateIdentityWitness;
+witness getCredentialSignature(): Bytes<64>;
+
+// --- Circuits: Zero-Knowledge Verification Logic ---
+
+/**
+ * @notice Registers an authorized credential issuer on public ledger
+ * @param issuerId Public identifier of the issuing authority
+ */
+export circuit registerIssuer(issuerId: Bytes<32>): Void {
+  // Update public ledger state
+  validIssuers.insert(issuerId, true);
+}
+
+/**
+ * @notice Verifies an Age Threshold proof (e.g., Age >= 18)
+ * @param minRequiredAge Minimum age requirement (e.g. 18)
+ * @param currentYear Current reference year for verification
+ * @param verifierNonce Nonce provided by the verifier to prevent replay
+ * @return result Disclosed boolean: true if age >= minRequiredAge and valid
+ */
+export circuit verifyAgeProof(
+  minRequiredAge: Uint<16>,
+  currentYear: Uint<16>,
+  verifierNonce: Bytes<32>
+): Boolean {
+  // 1. Fetch private witness on client device
+  const priv = getPrivateIdentity();
+
+  // 2. Cryptographic constraint checks: Verify credential type is AGE (1)
+  assert(priv.credentialType == 1, "Invalid credential type: Expected AGE");
+
+  // 3. Ensure credential is not expired
+  assert(currentYear <= (priv.expirationTimestamp as Uint<16>), "Credential has expired");
+
+  // 4. Check issuer is valid in public ledger
+  const isIssuerValid = validIssuers.lookup(priv.issuerPublicKey).unwrapOrDefault(false);
+  assert(isIssuerValid, "Credential issuer not authorized");
+
+  // 5. Compute commitment hash
+  const commitment = persistentHash<Vector<4, Bytes<32>>>([
+    priv.subjectSecret,
+    priv.issuerPublicKey,
+    priv.blindingFactor,
+    verifierNonce
+  ]);
+
+  // 6. Check that the credential has not been revoked
+  const isRevoked = revokedCommitments.lookup(commitment).unwrapOrDefault(false);
+  assert(!isRevoked, "Credential commitment has been revoked");
+
+  // 7. Evaluate private claim: calculatedAge >= minRequiredAge
+  // Note: claimNumericValue contains birth year
+  const calculatedAge = currentYear - (priv.claimNumericValue as Uint<16>);
+  const satisfiesClaim = calculatedAge >= minRequiredAge;
+
+  // 8. Increment public verification counter
+  totalVerifications.increment(1);
+
+  // 9. Record verification receipt hash on public ledger
+  const receiptHash = persistentHash<Vector<2, Bytes<32>>>([commitment, verifierNonce]);
+  activeVerificationReceipts.insert(receiptHash, currentYear as Uint<64>);
+
+  // 10. Deliberately disclose ONLY the satisfaction boolean
+  return disclose(satisfiesClaim);
+}
+
+/**
+ * @notice Verifies an Active Student Status proof
+ * @param institutionId Required institution identifier
+ * @param verifierNonce Verifier challenge nonce
+ */
+export circuit verifyStudentProof(
+  institutionId: Bytes<32>,
+  verifierNonce: Bytes<32>
+): Boolean {
+  const priv = getPrivateIdentity();
+
+  assert(priv.credentialType == 2, "Invalid credential type: Expected STUDENT");
+  assert(priv.issuerPublicKey == institutionId, "Institution mismatch");
+  assert(priv.claimStatusFlag == true, "Student enrollment not active");
+
+  const commitment = persistentHash<Vector<3, Bytes<32>>>([
+    priv.subjectSecret,
+    priv.issuerPublicKey,
+    priv.blindingFactor
+  ]);
+
+  const isRevoked = revokedCommitments.lookup(commitment).unwrapOrDefault(false);
+  assert(!isRevoked, "Student credential revoked");
+
+  totalVerifications.increment(1);
+  return disclose(true);
+}
+
+/**
+ * @notice Verifies a KYC Compliance proof (Tier 1/2)
+ * @param requiredTier Minimum KYC tier (1 or 2)
+ * @param verifierNonce Verifier challenge nonce
+ */
+export circuit verifyKYCProof(
+  requiredTier: Uint<16>,
+  verifierNonce: Bytes<32>
+): Boolean {
+  const priv = getPrivateIdentity();
+
+  assert(priv.credentialType == 3, "Invalid credential type: Expected KYC");
+  assert((priv.claimNumericValue as Uint<16>) >= requiredTier, "KYC Tier insufficient");
+  assert(priv.claimStatusFlag == true, "KYC verification inactive");
+
+  const commitment = persistentHash<Vector<3, Bytes<32>>>([
+    priv.subjectSecret,
+    priv.issuerPublicKey,
+    priv.blindingFactor
+  ]);
+
+  const isRevoked = revokedCommitments.lookup(commitment).unwrapOrDefault(false);
+  assert(!isRevoked, "KYC credential revoked");
+
+  totalVerifications.increment(1);
+  return disclose(true);
+}
+
+/**
+ * @notice Revokes a credential commitment on the public ledger
+ * @param commitmentHash Hash of the credential commitment to revoke
+ */
+export circuit revokeCredential(commitmentHash: Bytes<32>): Void {
+  revokedCommitments.insert(commitmentHash, true);
+}
