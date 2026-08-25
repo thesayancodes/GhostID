@@ -1,25 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "GhostID — Prove Who You Are. Reveal Nothing You Don't Need To.",
   description:
-    "Privacy-first decentralized identity and credential verification platform powered by Midnight zero-knowledge proofs and Compact smart contracts.",
+    "Privacy-first decentralized identity & selective disclosure platform powered by Midnight zero-knowledge proofs and Compact smart contracts.",
   keywords: [
     "Midnight Network",
     "Zero-Knowledge Proofs",
@@ -27,6 +14,7 @@ export const metadata: Metadata = {
     "Compact Smart Contracts",
     "Selective Disclosure",
     "Privacy-Preserving KYC",
+    "GhostID",
   ],
 };
 
@@ -37,8 +25,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-background text-foreground antialiased min-h-screen flex flex-col selection:bg-ghost-500/30 selection:text-ghost-200`}
+        className="font-sans bg-void text-fog antialiased min-h-screen flex flex-col selection:bg-spectral-violet/30 selection:text-fog"
       >
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>

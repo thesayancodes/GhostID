@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Shield, Sparkles, Cpu, Lock, ChevronDown, CheckCircle2, AlertTriangle, ExternalLink } from "lucide-react";
 import { useMidnight } from "../../hooks/useMidnight";
 import { WalletConnect } from "../wallet/WalletConnect";
+import { GhostLogo } from "./GhostLogo";
 import { useState } from "react";
 
 export function Navbar() {
@@ -26,24 +27,12 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-surface-border bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand Logo */}
-        <div className="flex items-center gap-8">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-ghost-600 via-midnight-accent to-midnight-cyan p-[1px] shadow-glow-indigo transition-transform group-hover:scale-105">
-              <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-background">
-                <Shield className="h-5 w-5 text-ghost-400 transition-colors group-hover:text-midnight-cyan" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-mono text-lg font-bold tracking-wider text-white">
-                GHOST<span className="text-ghost-400">ID</span>
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-ghost-300/60 font-medium">
-                Midnight ZK Identity
-              </span>
-            </div>
+    <header className="sticky top-0 z-50 w-full border-b border-spectral-violet/15 bg-void/90 backdrop-blur-xl transition-colors">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8">
+        {/* Brand Animated Logo */}
+        <div className="flex items-center gap-6 lg:gap-8">
+          <Link href="/" className="flex items-center">
+            <GhostLogo size="md" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -54,15 +43,15 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                  className={`relative px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-150 ${
                     isActive
-                      ? "text-white bg-surface-lighter border border-surface-border shadow-sm"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-surface/60"
+                      ? "text-white bg-surface-raised border border-spectral-violet/40 shadow-[0_0_15px_rgba(124,111,242,0.2)] font-semibold"
+                      : "text-fog-dim hover:text-white hover:bg-surface/80"
                   }`}
                 >
                   {link.name}
                   {link.badge && (
-                    <span className="ml-1.5 rounded bg-ghost-500/20 px-1 py-0.2 text-[9px] font-semibold text-ghost-300">
+                    <span className="ml-1.5 rounded bg-spectral-violet/25 px-1 py-0.2 text-[9px] font-bold text-phantom-cyan">
                       {link.badge}
                     </span>
                   )}
@@ -73,27 +62,28 @@ export function Navbar() {
         </div>
 
         {/* Right Action Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Network Switcher Dropdown */}
           <div className="relative">
             <button
               onClick={() => setNetworkMenuOpen(!networkMenuOpen)}
-              className="flex items-center gap-2 rounded-lg border border-surface-border bg-surface px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:bg-surface-lighter hover:border-ghost-500/40 transition-all"
+              className="flex items-center gap-1.5 sm:gap-2 rounded-lg border border-spectral-violet/20 bg-surface px-2 sm:px-2.5 py-1.5 text-xs font-medium text-fog-dim hover:text-white hover:bg-surface-raised hover:border-spectral-violet/40 transition-all"
+              title="Select Network"
             >
               <div
-                className={`h-2 w-2 rounded-full ${
-                  isDemoMode ? "bg-midnight-amber animate-pulse" : "bg-midnight-emerald shadow-glow-emerald"
+                className={`h-2 w-2 rounded-full shrink-0 ${
+                  isDemoMode ? "bg-ember animate-pulse" : "bg-phantom-cyan shadow-[0_0_8px_rgba(94,234,212,0.6)]"
                 }`}
               />
-              <span className="hidden sm:inline">
+              <span className="hidden md:inline font-mono text-[11px]">
                 {isDemoMode ? "Demo Sandbox" : activeNetwork === "preprod" ? "Midnight Preprod" : "Midnight Preview"}
               </span>
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+              <ChevronDown className="h-3 w-3 text-fog-dim shrink-0" />
             </button>
 
             {networkMenuOpen && (
-              <div className="absolute right-0 mt-2 w-56 rounded-xl border border-surface-border bg-surface p-2 shadow-glass backdrop-blur-2xl z-50">
-                <div className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              <div className="absolute right-0 mt-2 w-56 rounded-xl border border-spectral-violet/25 bg-surface p-2 shadow-glass backdrop-blur-2xl z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-fog-dim/70 font-mono">
                   Target Environment
                 </div>
                 <button
@@ -101,33 +91,33 @@ export function Navbar() {
                     switchNetwork("demo");
                     setNetworkMenuOpen(false);
                   }}
-                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs text-left ${
-                    isDemoMode ? "bg-surface-lighter text-ghost-300 font-semibold" : "text-slate-300 hover:bg-surface-hover"
+                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs text-left transition-colors ${
+                    isDemoMode ? "bg-surface-raised text-ember font-semibold" : "text-fog-dim hover:bg-surface-raised hover:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-midnight-amber" />
+                    <span className="h-2 w-2 rounded-full bg-ember" />
                     <span>Demo Sandbox</span>
                   </div>
-                  {isDemoMode && <CheckCircle2 className="h-3.5 w-3.5 text-ghost-400" />}
+                  {isDemoMode && <CheckCircle2 className="h-3.5 w-3.5 text-ember" />}
                 </button>
                 <button
                   onClick={() => {
                     switchNetwork("preprod");
                     setNetworkMenuOpen(false);
                   }}
-                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs text-left ${
+                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs text-left transition-colors ${
                     !isDemoMode && activeNetwork === "preprod"
-                      ? "bg-surface-lighter text-midnight-emerald font-semibold"
-                      : "text-slate-300 hover:bg-surface-hover"
+                      ? "bg-surface-raised text-phantom-cyan font-semibold"
+                      : "text-fog-dim hover:bg-surface-raised hover:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-midnight-emerald" />
+                    <span className="h-2 w-2 rounded-full bg-phantom-cyan" />
                     <span>Midnight Preprod</span>
                   </div>
                   {!isDemoMode && activeNetwork === "preprod" && (
-                    <CheckCircle2 className="h-3.5 w-3.5 text-midnight-emerald" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-phantom-cyan" />
                   )}
                 </button>
                 <button
@@ -135,18 +125,18 @@ export function Navbar() {
                     switchNetwork("preview");
                     setNetworkMenuOpen(false);
                   }}
-                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs text-left ${
+                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs text-left transition-colors ${
                     !isDemoMode && activeNetwork === "preview"
-                      ? "bg-surface-lighter text-midnight-cyan font-semibold"
-                      : "text-slate-300 hover:bg-surface-hover"
+                      ? "bg-surface-raised text-spectral-violet font-semibold"
+                      : "text-fog-dim hover:bg-surface-raised hover:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-midnight-cyan" />
+                    <span className="h-2 w-2 rounded-full bg-spectral-violet" />
                     <span>Midnight Preview</span>
                   </div>
                   {!isDemoMode && activeNetwork === "preview" && (
-                    <CheckCircle2 className="h-3.5 w-3.5 text-midnight-cyan" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-spectral-violet" />
                   )}
                 </button>
               </div>
@@ -159,16 +149,16 @@ export function Navbar() {
           {/* Settings Link */}
           <Link
             href="/settings"
-            className="hidden sm:flex h-9 w-9 items-center justify-center rounded-lg border border-surface-border bg-surface text-slate-400 hover:text-white hover:bg-surface-lighter transition-colors"
+            className="hidden sm:flex h-8 w-8 items-center justify-center rounded-lg border border-spectral-violet/20 bg-surface text-fog-dim hover:text-white hover:bg-surface-raised hover:border-spectral-violet/40 transition-all"
             title="Settings"
           >
-            <Lock className="h-4 w-4" />
+            <Lock className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
 
       {/* Mobile/Tablet Sub-Navigation */}
-      <div className="flex xl:hidden overflow-x-auto border-t border-surface-border/50 bg-surface/50 px-4 py-2 scrollbar-none gap-2">
+      <div className="flex xl:hidden overflow-x-auto border-t border-spectral-violet/15 bg-surface/70 px-4 py-2 scrollbar-none gap-2">
         {navLinks.map((link) => {
           const isActive = pathname === link.href;
           return (
@@ -177,8 +167,8 @@ export function Navbar() {
               href={link.href}
               className={`whitespace-nowrap px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
                 isActive
-                  ? "bg-ghost-600/30 text-ghost-200 border border-ghost-500/40"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "bg-spectral-violet/25 text-white border border-spectral-violet/50 shadow-sm font-semibold"
+                  : "text-fog-dim hover:text-white"
               }`}
             >
               {link.name}

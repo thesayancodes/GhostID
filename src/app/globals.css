@@ -1,18 +1,99 @@
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,600,500,400&f[]=satoshi@700,600,500,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: #08090D;
-    --foreground: #F8FAFC;
+    /* Spectral Proof Color Tokens */
+    --void: #06070C;
+    --surface: #12142B;
+    --surface-raised: #1B1E3D;
+    --spectral-violet: #7C6FF2;
+    --spectral-violet-glow: rgba(124, 111, 242, 0.45);
+    --spectral-violet-subtle: rgba(124, 111, 242, 0.15);
+    --phantom-cyan: #5EEAD4;
+    --phantom-cyan-glow: rgba(94, 234, 212, 0.4);
+    --phantom-cyan-subtle: rgba(94, 234, 212, 0.12);
+    --ember: #F5A56B;
+    --ember-glow: rgba(245, 165, 107, 0.35);
+    --fog: #E8E6F5;
+    --fog-dim: #9B9BB8;
+    --danger-glitch: #E2555C;
+    --danger-glitch-glow: rgba(226, 85, 92, 0.35);
+
+    /* System mappings */
+    --background: var(--void);
+    --foreground: var(--fog);
+  }
+
+  * {
+    border-color: rgba(124, 111, 242, 0.15);
   }
 
   body {
-    background-color: #08090D;
-    color: #F8FAFC;
+    background-color: #06070C;
+    color: #E8E6F5;
+    font-family: "Satoshi", "General Sans", system-ui, -apple-system, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-x: hidden;
   }
+
+  h1, h2, h3, .font-display {
+    font-family: "Cabinet Grotesk", "Clash Display", "Satoshi", sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  code, pre, .font-mono {
+    font-family: "JetBrains Mono", "IBM Plex Mono", monospace;
+  }
+}
+
+/* Explicit color utilities */
+.bg-spectral-violet {
+  background-color: #7C6FF2 !important;
+}
+
+.text-spectral-violet {
+  color: #7C6FF2 !important;
+}
+
+.border-spectral-violet {
+  border-color: #7C6FF2 !important;
+}
+
+.bg-phantom-cyan {
+  background-color: #5EEAD4 !important;
+}
+
+.text-phantom-cyan {
+  color: #5EEAD4 !important;
+}
+
+.bg-void {
+  background-color: #06070C !important;
+}
+
+.bg-surface {
+  background-color: #12142B !important;
+}
+
+.bg-surface-raised {
+  background-color: #1B1E3D !important;
+}
+
+.text-fog {
+  color: #E8E6F5 !important;
+}
+
+.text-fog-dim {
+  color: #9B9BB8 !important;
+}
+
+.text-danger-glitch {
+  color: #E2555C !important;
 }
 
 /* Custom modern scrollbars */
@@ -22,41 +103,152 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0F111A;
+  background: #06070C;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #23283E;
+  background: #1B1E3D;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366F1;
+  background: #7C6FF2;
 }
 
-/* Glassmorphism card utilities */
+/* Glassmorphism & Spectral Glow Utilities */
 .glass-panel {
-  background: rgba(15, 17, 26, 0.75);
+  background: rgba(18, 20, 43, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(35, 40, 62, 0.8);
+  border: 1px solid rgba(124, 111, 242, 0.18);
+}
+
+.glass-panel-raised {
+  background: rgba(27, 30, 61, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(124, 111, 242, 0.3);
 }
 
 .glass-panel-glow {
-  background: rgba(15, 17, 26, 0.85);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.2);
+  background: rgba(18, 20, 43, 0.9);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(124, 111, 242, 0.4);
+  box-shadow: 0 0 40px -5px rgba(124, 111, 242, 0.3);
 }
 
-.gradient-text-indigo {
-  background: linear-gradient(135deg, #FFFFFF 0%, #C7D2FE 50%, #818CF8 100%);
+/* Spectral Text Gradients */
+.gradient-text-spectral {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E8E6F5 20%, #7C6FF2 65%, #5EEAD4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #7C6FF2;
+  display: inline-block;
 }
 
-.gradient-text-cyan {
-  background: linear-gradient(135deg, #A5F3FC 0%, #06B6D4 50%, #3B82F6 100%);
+.gradient-text-phantom {
+  background: linear-gradient(135deg, #FFFFFF 0%, #5EEAD4 50%, #7C6FF2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #5EEAD4;
+}
+
+.gradient-text-ember {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5A56B 60%, #E2555C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #F5A56B;
+}
+
+/* Card hover micro-interaction */
+.card-spectral-hover {
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.card-spectral-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(124, 111, 242, 0.45);
+  box-shadow: 0 10px 30px -10px rgba(124, 111, 242, 0.25);
+}
+
+/* Data Leak & Glitch Keyframes for Traditional Unsafe Panel */
+@keyframes data-leak-flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0px);
+  }
+  20% {
+    opacity: 0.85;
+    transform: translateX(-1px);
+    color: #E2555C;
+    filter: blur(0.5px);
+  }
+  40% {
+    opacity: 0.95;
+    transform: translateX(1px);
+  }
+  60% {
+    opacity: 0.75;
+    transform: translateX(-2px);
+    text-shadow: 2px 0 #E2555C, -2px 0 rgba(226, 85, 92, 0.4);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-data-leak {
+  animation: data-leak-flicker 2.5s infinite ease-in-out;
+}
+
+/* Dissolve to Blur Animation for GhostID Hidden fields */
+@keyframes dissolve-to-hidden {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+}
+
+.animate-resolve-hidden {
+  animation: dissolve-to-hidden 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Hero Boolean Pulse */
+@keyframes spectral-hero-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(124, 111, 242, 0.3), 0 0 40px rgba(94, 234, 212, 0.18);
+    border-color: rgba(124, 111, 242, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(124, 111, 242, 0.55), 0 0 60px rgba(94, 234, 212, 0.35);
+    border-color: rgba(94, 234, 212, 0.9);
+  }
+}
+
+.animate-hero-proof-glow {
+  animation: spectral-hero-pulse 3s infinite ease-in-out;
+}
+
+/* Motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
