@@ -13,7 +13,7 @@ export default function DevelopersPortalPage() {
 // 1. Initialize client connected to Midnight Preprod
 const ghostID = new GhostIDClient({
   network: "preprod",
-  contractAddress: "0200078b5490a2ec7e19b5b2909476839352e1320efb5cc1269fa628c68c17bdf75f"
+  contractAddress: "020062520f7d9da26bbb79a002ca2078a195999b911d5385ae250a59d3aa594f06e6"
 });
 
 // 2. Request a selective disclosure proof

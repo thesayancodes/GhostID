@@ -20,7 +20,7 @@ export const NETWORK_CONFIGS: Record<string, NetworkConfig> = {
     name: "Midnight Preprod",
     indexerUri: "https://indexer.preprod.midnight.network/api/v1/graphql",
     proofServerUri: "https://proof-server.preprod.midnight.network",
-    contractAddress: "0200078b5490a2ec7e19b5b2909476839352e1320efb5cc1269fa628c68c17bdf75f",
+    contractAddress: "020062520f7d9da26bbb79a002ca2078a195999b911d5385ae250a59d3aa594f06e6",
     isReal: true,
   },
   preview: {
@@ -28,7 +28,7 @@ export const NETWORK_CONFIGS: Record<string, NetworkConfig> = {
     name: "Midnight Preview",
     indexerUri: "https://indexer.preview.midnight.network/api/v1/graphql",
     proofServerUri: "https://proof-server.preview.midnight.network",
-    contractAddress: "02000a6c98f92bd87e21a4f0285918239045e1290fab4bc098fa618c728c19adfa4e",
+    contractAddress: "02009d1eeba2e41ff7204cfab6b0dc1c3bbd9aa9d7df0f046b051d763bcd79b4f033",
     isReal: true,
   },
   local: {

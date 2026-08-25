@@ -60,8 +60,8 @@
 
 | Network | Address |
 |:---:|:---|
-| 🟣 **Preprod** | `0200078b5490a2ec7e19b5b2909476839352e1320efb5cc1269fa628c68c17bdf75f` |
-| 🔵 **Preview** | `02000a6c98f92bd87e21a4f0285918239045e1290fab4bc098fa618c728c19adfa4e` |
+| 🟣 **Preprod** | `020062520f7d9da26bbb79a002ca2078a195999b911d5385ae250a59d3aa594f06e6` |
+| 🔵 **Preview** | `02009d1eeba2e41ff7204cfab6b0dc1c3bbd9aa9d7df0f046b051d763bcd79b4f033` |
 
 </div>
 
