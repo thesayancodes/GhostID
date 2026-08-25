@@ -7,7 +7,7 @@ This guide walks judges and evaluators through the complete GhostID user journey
 ## 2-Minute Demo Flow
 
 ### Step 1: Landing Page & WOW Hero Demonstration
-1. Open `http://localhost:3000` (or the live deployment URL).
+1. Open **[https://ghostid-midnight.vercel.app](https://ghostid-midnight.vercel.app)** (or `http://localhost:3000` locally).
 2. Examine the **Side-by-Side Hero Comparison**:
    - **Left:** Traditional verification (Name, DOB, Address, ID exposed).
    - **Right:** GhostID zero-knowledge verification (Only `Age >= 18 ✓` revealed; all raw personal fields remain `HIDDEN`).

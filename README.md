@@ -3,6 +3,7 @@
 <img src="./banner.svg" alt="GhostID — Prove who you are. Reveal nothing you don't need to." width="100%"/>
 
 [![GhostID Midnight CI/CD](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml/badge.svg)](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Production-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://ghostid-midnight.vercel.app)
 ![Midnight Network](https://img.shields.io/badge/Built%20on-Midnight%20Network-8A2BE2?style=for-the-badge)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
