@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:8A2BE2,100:00D9FF&height=220&section=header&text=GhostID&fontSize=80&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Prove%20Who%20You%20Are.%20Reveal%20Nothing%20You%20Don%27t%20Need%20To.&descAlignY=55&descSize=18&descColor=ffffff" width="100%"/>
+<img src="./banner.svg" alt="GhostID — Prove who you are. Reveal nothing you don't need to." width="100%"/>
 
 [![GhostID Midnight CI/CD](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml/badge.svg)](https://github.com/thesayancodes/GhostID/actions/workflows/ci.yml)
 ![Midnight Network](https://img.shields.io/badge/Built%20on-Midnight%20Network-8A2BE2?style=for-the-badge)
