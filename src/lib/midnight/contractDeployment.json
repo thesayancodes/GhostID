@@ -1,5 +1,5 @@
 {
-  "deployedAt": "2026-09-28T16:13:14.742Z",
+  "deployedAt": "2026-09-28T16:44:39.519Z",
   "networks": {
     "preprod": {
       "networkId": "preprod",
@@ -9,7 +9,7 @@
       "ghostIDContractAddress": "0200c64a430698c0d72a7cd526081fd585dad2a131ec3051e56b45c9135fd8d37756",
       "counterContractAddress": "020023362149892770f610aafec5b1c33ba24cd9707bbf59df88384961d77a8ae451",
       "authorityPublicKey": "0x028f89e219ba48c08924b1728491c98237192837198274619284719283719283",
-      "txHash": "0x02dfdd76d9e336bce7790a16b12c2fad3dce4198a1b8b0a8769869d71ba3c5fc",
+      "txHash": "0xa78a16f2b4863367b34b61d3c4927fc973af11e0827a93c14d548220bdff22c7",
       "status": "ACTIVE_VERIFIED"
     },
     "preview": {
@@ -20,7 +20,7 @@
       "ghostIDContractAddress": "020053beb1d2af5fd06f476214f76c590834b457c1cc3cc26ba940d103413c1db729",
       "counterContractAddress": "0200ea3f9c56e6776bcb55bbc30bc72acb9dafdd2e01d9808d77c972b5dd3c5f4a47",
       "authorityPublicKey": "0x039f82ab71928371928371928471928371928471928371928471928371928471",
-      "txHash": "0xa0c51b5b9a392819eb1c85fe76942ce9fbea736daaa7118a27b64299b212a38b",
+      "txHash": "0x9699440a651515075f6eb72d8a7a8849ede2602cee99d8eb8c60d7440411527b",
       "status": "ACTIVE_VERIFIED"
     }
   }

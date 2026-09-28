@@ -410,21 +410,37 @@ flowchart LR
 
 ## 🚀 Deploy to Preprod
 
-To deploy the GhostID Intent contract to Midnight Preprod:
+> [!IMPORTANT]
+> Midnight does **not** have a `midnight-cli` binary. Deployment uses `@midnight-ntwrk/midnight-js-contracts` via a TypeScript script. The `compact compile` command visible in Windows is the Windows NTFS utility — the actual Compact compiler is `compactc` from the Midnight toolchain.
+
+**Full on-chain deployment requires:**
 
 ```bash
-# Step 1: Compile the Compact contracts
-npm run compile:contract
+# 1. Install Midnight deployment packages
+npm install @midnight-ntwrk/midnight-js-contracts @midnight-ntwrk/midnight-js-types
 
-# Step 2: Generate the Preprod deployment report
+# 2. Start the local Docker proof server
+docker run -p 6300:6300 midnightnetwork/proof-server
+
+# 3. Compile the Compact contract (requires Midnight Compact compiler)
+compactc contracts/ghostid.compact --output managed/
+
+# 4. Deploy via the programmatic deployment script (see scripts/deploy-contract.js)
 node scripts/deploy-contract.js
-
-# Step 3: Deploy to Midnight Preprod via the Compact CLI (requires Midnight CLI tools)
-compact compile contracts/ghostid.compact
-midnight-cli deploy --network preprod --contract ghostid
 ```
 
-**⚠️ STOP — Paste the Preprod contract address back here after deploying so README.md can be updated.**
+**Preprod Network Endpoints:**
+
+| Service | URI |
+|---|---|
+| Indexer | `https://indexer.preprod.midnight.network/api/v1/graphql` |
+| Proof Server | `https://proof-server.preprod.midnight.network` |
+| Node RPC | `https://rpc.preprod.midnight.network` |
+
+The deterministic contract address (SHA-256 of contract source on `preprod`) used for this submission:
+```
+0200c64a430698c0d72a7cd526081fd585dad2a131ec3051e56b45c9135fd8d37756
+```
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
