@@ -1,15 +1,15 @@
 {
-  "deployedAt": "2026-08-25T07:39:56.914Z",
+  "deployedAt": "2026-09-28T16:13:14.742Z",
   "networks": {
     "preprod": {
       "networkId": "preprod",
       "name": "Midnight Preprod",
       "indexerUri": "https://indexer.preprod.midnight.network/api/v1/graphql",
       "proofServerUri": "https://proof-server.preprod.midnight.network",
-      "ghostIDContractAddress": "020062520f7d9da26bbb79a002ca2078a195999b911d5385ae250a59d3aa594f06e6",
+      "ghostIDContractAddress": "0200c64a430698c0d72a7cd526081fd585dad2a131ec3051e56b45c9135fd8d37756",
       "counterContractAddress": "020023362149892770f610aafec5b1c33ba24cd9707bbf59df88384961d77a8ae451",
       "authorityPublicKey": "0x028f89e219ba48c08924b1728491c98237192837198274619284719283719283",
-      "txHash": "0x743ab9f84c3924ca2ddcd93131ddeccebabfac5a43e406e2567610993f08c3ae",
+      "txHash": "0x02dfdd76d9e336bce7790a16b12c2fad3dce4198a1b8b0a8769869d71ba3c5fc",
       "status": "ACTIVE_VERIFIED"
     },
     "preview": {
@@ -17,10 +17,10 @@
       "name": "Midnight Preview",
       "indexerUri": "https://indexer.preview.midnight.network/api/v1/graphql",
       "proofServerUri": "https://proof-server.preview.midnight.network",
-      "ghostIDContractAddress": "02009d1eeba2e41ff7204cfab6b0dc1c3bbd9aa9d7df0f046b051d763bcd79b4f033",
+      "ghostIDContractAddress": "020053beb1d2af5fd06f476214f76c590834b457c1cc3cc26ba940d103413c1db729",
       "counterContractAddress": "0200ea3f9c56e6776bcb55bbc30bc72acb9dafdd2e01d9808d77c972b5dd3c5f4a47",
       "authorityPublicKey": "0x039f82ab71928371928371928471928371928471928371928471928371928471",
-      "txHash": "0x72e59e8b53bff0b0fefd0c9c53ed8da0dff03c58bfff77887d810d4645ba07bc",
+      "txHash": "0xa0c51b5b9a392819eb1c85fe76942ce9fbea736daaa7118a27b64299b212a38b",
       "status": "ACTIVE_VERIFIED"
     }
   }

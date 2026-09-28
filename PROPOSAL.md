@@ -1,24 +1,50 @@
-# Product Proposal: GHOSTID
+# GhostID Intent — Proposal
+
+## GhostID Intent: Privacy Policy-to-Proof Layer for Midnight
+
+GhostID is a privacy-first decentralized identity and selective credential verification platform built on the Midnight blockchain network.
+
+The Level 4 upgrade introduces **GhostID Intent** — a new protocol-level layer that transforms GhostID from a proof generator into a **Privacy Policy-to-Proof firewall**.
+
+---
 
 ## What is the product, and who uses it?
-GhostID is a privacy-first decentralized identity and selective credential verification platform built on the Midnight blockchain. It allows users to prove verified facts about themselves (such as `Age >= 18`, `Student Status = Active`, or `KYC Tier 1 = Verified`) without revealing their underlying personal data (exact date of birth, legal name, physical address, or national ID numbers).
+
+GhostID Intent changes the fundamental interface between verifiers and users.
+
+Today, a verifier application may request a user's full name, date of birth, home address, and government ID even when its real requirement is only: **"Is this user over 18?"**
+
+GhostID Intent forces every verification request to declare a structured **Identity Intent** containing:
+
+- **Purpose** — why the verification is being requested
+- **Required Claims** — the minimum set of mathematical predicates to evaluate (e.g. `AGE >= 18`)
+- **Issuer Constraints** — trusted issuer authorities
+- **Expiration** — time-bounded request with expiry
+- **Nonce** — cryptographic challenge specific to this request
+- **Allowed Disclosure** — `PREDICATE_RESULT_ONLY`
+
+The user's private identity data remains on their device. Only the boolean result of the predicate evaluation is disclosed.
 
 **Target Users:**
-1. **Normal Consumers / Web Users:** Everyday individuals needing to pass age gates, access student discounts, or sign up for financial services without exposing raw identity documents to third-party databases.
-2. **Credential Issuers (Universities, Banks, Government Authorities):** Organizations that issue cryptographically signed identity commitments and maintain verifiable on-chain revocation registries.
-3. **Verifiers & DApps:** DeFi protocols, exchanges, e-commerce platforms, and venues needing zero-knowledge compliance verification without taking on the regulatory and breach liabilities of storing sensitive customer data.
-4. **Developers:** Engineers integrating minimal privacy-preserving verification using the GhostID TypeScript SDK and Compact smart contracts.
+1. **Consumers / Web Users** — prove age, student status, or KYC compliance without handing over documents
+2. **Verifier DApps** — declare precise intent and receive cryptographic proof without collecting PII
+3. **Credential Issuers** — universities, government authorities, and KYC providers issuing signed credentials
+4. **Developers** — integrate privacy-minimized verification via the GhostID SDK and Compact contracts
 
 ---
 
 ## Why Midnight specifically?
-Transparent blockchains (such as Ethereum, Solana, or Bitcoin) record all transaction inputs, caller addresses, and state variables publicly on-chain. Deploying an identity verification system on a transparent chain inherently forces a fatal trade-off: either dox the user's personal data publicly, or rely on centralized off-chain servers that defeat decentralization.
 
-Midnight solves this fundamentally through:
-1. **Dual State Architecture (Public Ledger vs. Private Witnesses):** Sensitive data (birth years, student IDs, KYC numbers) is evaluated exclusively within the user's client-side private witness.
-2. **Compact Smart Contracts:** Native zero-knowledge circuit compilation where the compiler enforces privacy-by-default, ensuring private witness data cannot leak without deliberate `disclose()` directives.
-3. **On-Chain Zero-Knowledge Verification:** Midnight verifies the validity of mathematical proofs on-chain and updates public counters and revocation registries while maintaining complete anonymity for the subject.
-4. **DApp Connector & Lace Wallet Integration:** Native privacy-preserving wallet architecture designed specifically for zero-knowledge interactions.
+GhostID Intent is specifically designed around Midnight's privacy model.
+
+Midnight provides programmable privacy and selective disclosure, allowing developers to define what remains private and what is disclosed through application logic and zero-knowledge proofs.
+
+Key Midnight capabilities used:
+
+1. **Dual State Architecture** — sensitive data (birth years, student IDs, KYC numbers, Intent witness hashes) is evaluated exclusively within the user's client-side private witness
+2. **Compact Smart Contracts** — native zero-knowledge circuit compilation where `disclose()` is the only pathway for data to be published
+3. **On-Chain ZK Verification** — Midnight verifies proof validity, consumes request nonces, and records Privacy Receipt hashes on the public ledger while the subject remains anonymous
+4. **DApp Connector & Lace Wallet** — native privacy-preserving wallet architecture designed for zero-knowledge interactions
 
 ---
 
@@ -26,25 +52,54 @@ Midnight solves this fundamentally through:
 
 | Data Point | Type | Disclosed To |
 |---|---|---|
-| Platform Authority Public Key | Public ledger | Everyone (On-chain) |
-| Total Global Verification Counter | Public ledger | Everyone (On-chain) |
-| Authorized Issuer Public Key Hashes | Public ledger | Everyone (On-chain) |
-| Revocation Commitment Hashes | Public ledger | Everyone (On-chain) |
-| Disclosed Proof Satisfaction Boolean (`true`/`false`) | Public ledger / Verifier Receipt | Verifier & Smart Contract |
-| Ephemeral Verifier Challenge Nonce | Public ledger / Circuit Input | Verifier & Smart Contract |
-| User Exact Date of Birth (DOB) | Private witness | **No one (Local Device Only)** |
-| Full Legal Name | Private witness | **No one (Local Device Only)** |
-| National Identity / Passport / Aadhaar Number | Private witness | **No one (Local Device Only)** |
-| Physical Home Address & Postal Code | Private witness | **No one (Local Device Only)** |
-| University Student Registration ID & Grades | Private witness | **No one (Local Device Only)** |
-| User Cryptographic Secret Key & Blinding Salts | Private witness | **No one (Local Device Only)** |
+| Contract Authority Public Key | Public ledger | Everyone |
+| Total Global Verification Counter | Public ledger | Everyone |
+| Authorized Issuer Public Key Hashes | Public ledger | Everyone |
+| Revocation Commitment Hashes | Public ledger | Everyone |
+| Processed Intent Nonces (replay prevention) | Public ledger | Everyone |
+| Privacy Receipt Hash | Public ledger | Everyone |
+| Disclosed Proof Satisfaction Boolean | Verifier & Contract | Verifier Only |
+| Intent Hash (binding nonce + purpose + claims) | Circuit input only | Verifier & Circuit |
+| **User Exact Date of Birth (DOB)** | **Private witness** | **No one** |
+| **Full Legal Name** | **Private witness** | **No one** |
+| **National Identity / Passport Number** | **Private witness** | **No one** |
+| **Physical Home Address** | **Private witness** | **No one** |
+| **University Student Registration ID** | **Private witness** | **No one** |
+| **User Cryptographic Secret Key & Blinding Salts** | **Private witness** | **No one** |
+| **Intent Witness (verifier ID, purpose hash, consent secret)** | **Private witness** | **No one** |
+
+---
+
+## New GhostID Intent Components Built for Level 4
+
+### 1. Identity Intent Schema (`src/lib/intent/index.ts`)
+Machine-readable structured format for purpose, claims, issuer constraints, nonce, and expiration.
+
+### 2. Policy Engine
+Converts verification requirements into explicit, cryptographic claim policies.
+
+### 3. Proof Router
+Matches required intent claims against the user's available private credentials to produce a minimal composite proof plan.
+
+### 4. `verifyIntentPolicyProof()` Compact Circuit (`contracts/ghostid.compact`)
+New ZK circuit that binds the verification execution to the declared Intent hash, preventing scope expansion.
+
+### 5. GhostShield 2.0
+Analyzes inbound verification requests for unnecessary raw personal data collection and recommends Intent minimization.
+
+### 6. Privacy Receipt
+Immutable, off-chain auditable record of what was verified, by whom, for what purpose, and what was disclosed (nothing).
+
+### 7. GhostAI Policy Assistant
+Natural language compiler: converts plain English business requirements into structured GhostID Identity Intents.
 
 ---
 
 ## Mainnet Feasibility
-Yes, GhostID is highly feasible for production Mainnet deployment by Level 6.
 
-1. **Lightweight Circuit Footprint:** The Compact circuits (`verifyAgeProof`, `verifyStudentProof`, `verifyKYCProof`) evaluate basic arithmetic inequality, equality, and Merkle/hash commitment constraints, requiring minimal proof generation time (< 1.5s in standard browser environments).
-2. **Standardized Credential Commitments:** The cryptographic commitment scheme aligns with W3C Verifiable Credentials and Poseidon/Pedersen hash standards on Midnight.
-3. **Decoupled Architecture:** Issuers publish only commitment roots and revocation hashes, making on-chain storage extremely lightweight and cost-effective.
-4. **Full Production Stack:** GhostID features a modular Next.js frontend, Lace DApp connector integration, and an extensible SDK adapter pattern.
+Yes, GhostID Intent is feasible for production Mainnet deployment.
+
+1. **Lightweight Circuit Footprint** — `verifyIntentPolicyProof()` evaluates arithmetic inequality, equality, Merkle/hash commitment constraints, and nonce checks; proof generation under 1.5 seconds in standard browser environments.
+2. **Standardized Credential Commitments** — commitment scheme aligns with W3C Verifiable Credentials and Poseidon/Pedersen hash standards.
+3. **Decoupled Architecture** — issuers publish only commitment roots and revocation hashes; on-chain storage is extremely lightweight.
+4. **Intent Protocol Reusability** — other Midnight dApps can integrate via the GhostID Intent SDK adapter without building their own identity verification systems.

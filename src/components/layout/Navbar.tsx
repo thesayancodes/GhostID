@@ -14,6 +14,7 @@ export function Navbar() {
   const [networkMenuOpen, setNetworkMenuOpen] = useState(false);
 
   const navLinks = [
+    { name: "Intent Protocol", href: "/intent", badge: "NEW" },
     { name: "Dashboard", href: "/dashboard" },
     { name: "Vault", href: "/credentials" },
     { name: "Proof Center", href: "/proof" },

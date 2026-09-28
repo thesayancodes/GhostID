@@ -1,7 +1,22 @@
 {
   "contractName": "GhostIDContract",
+  "product": "GhostID Intent — Privacy Policy-to-Proof Layer",
   "languageVersion": "0.16.0",
   "circuits": [
+    {
+      "name": "verifyIntentPolicyProof",
+      "inputs": [
+        "intentHash",
+        "minRequiredAge",
+        "currentYear",
+        "requiredKycTier",
+        "requireActiveStudent",
+        "verifierNonce"
+      ],
+      "returnType": "Boolean",
+      "discloses": true,
+      "description": "Verifies that client private witness satisfies the policy constraints declared in an Intent"
+    },
     {
       "name": "verifyAgeProof",
       "inputs": [
@@ -10,7 +25,8 @@
         "verifierNonce"
       ],
       "returnType": "Boolean",
-      "discloses": true
+      "discloses": true,
+      "description": "Verifies Age >= minRequiredAge without revealing birth year or DOB"
     },
     {
       "name": "verifyStudentProof",
@@ -19,7 +35,8 @@
         "verifierNonce"
       ],
       "returnType": "Boolean",
-      "discloses": true
+      "discloses": true,
+      "description": "Verifies active student status without revealing enrollment ID"
     },
     {
       "name": "verifyKYCProof",
@@ -28,7 +45,17 @@
         "verifierNonce"
       ],
       "returnType": "Boolean",
-      "discloses": true
+      "discloses": true,
+      "description": "Verifies KYC tier compliance without exposing document numbers"
+    },
+    {
+      "name": "registerIssuer",
+      "inputs": [
+        "issuerId"
+      ],
+      "returnType": "Void",
+      "discloses": false,
+      "description": "Registers an authorized credential issuer on public ledger"
     },
     {
       "name": "revokeCredential",
@@ -36,7 +63,8 @@
         "commitmentHash"
       ],
       "returnType": "Void",
-      "discloses": false
+      "discloses": false,
+      "description": "Revokes a credential commitment on the public ledger"
     }
   ],
   "ledgerFields": [
@@ -59,6 +87,10 @@
     {
       "name": "activeVerificationReceipts",
       "type": "Map<Bytes<32>, Uint<64>>"
+    },
+    {
+      "name": "processedIntentNonces",
+      "type": "Map<Bytes<32>, Boolean>"
     }
   ],
   "witnesses": [
@@ -67,9 +99,13 @@
       "returnType": "PrivateIdentityWitness"
     },
     {
+      "name": "getPrivateIntentWitness",
+      "returnType": "PrivateIntentWitness"
+    },
+    {
       "name": "getCredentialSignature",
       "returnType": "Bytes<64>"
     }
   ],
-  "compiledAt": "2026-08-25T19:05:26.561Z"
+  "compiledAt": "2026-09-28T16:13:07.430Z"
 }

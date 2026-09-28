@@ -8,6 +8,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![ZK](https://img.shields.io/badge/Zero--Knowledge-Compact-orange?style=for-the-badge)
+![Intent Protocol](https://img.shields.io/badge/GhostID_Intent-Policy--to--Proof-brightgreen?style=for-the-badge)
 
 ![Last Commit](https://img.shields.io/github/last-commit/thesayancodes/GhostID?style=for-the-badge&color=8A2BE2&label=last%20commit)
 ![Repo Size](https://img.shields.io/github/repo-size/thesayancodes/GhostID?style=for-the-badge&color=00D9FF&label=repo%20size)
@@ -15,27 +16,27 @@
 
 <br/>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Fira+Code&size=22&pause=1000&color=8A2BE2&center=true&vCenter=true&width=700&lines=Prove+Who+You+Are.;Reveal+Nothing+You+Don%27t+Need+To.;Zero-Knowledge+Identity+on+Midnight+Network.;Age.+Student+Status.+KYC.+Verified+Privately.)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.demolab.com/?font=Fira+Code&size=22&pause=1000&color=8A2BE2&center=true&vCenter=true&width=700&lines=Prove+Who+You+Are.;Reveal+Nothing+You+Don%27t+Need+To.;Intent-Bound+Zero-Knowledge+on+Midnight.;One+Request.+One+Purpose.+Minimum+Disclosure.)](https://git.io/typing-svg)
 
 <br/>
 
 <a href="https://ghostid-midnight.vercel.app"><img src="https://img.shields.io/badge/🚀_LIVE_DEMO-Launch_App-8A2BE2?style=for-the-badge" /></a>
 <a href="./PROPOSAL.md"><img src="https://img.shields.io/badge/📄_Proposal-Read_Doc-00D9FF?style=for-the-badge" /></a>
 <a href="./ARCHITECTURE.md"><img src="https://img.shields.io/badge/🏗_Architecture-Read_Doc-orange?style=for-the-badge" /></a>
-<a href="./SECURITY.md"><img src="https://img.shields.io/badge/🔒_Security-Read_Doc-red?style=for-the-badge" /></a>
+<a href="./docs/USAGE.md"><img src="https://img.shields.io/badge/📖_Usage_Guide-Read_Doc-green?style=for-the-badge" /></a>
 
 </div>
 
 <br/>
 
 > [!TIP]
-> **New here?** Jump straight to the [Live Demo](https://ghostid-midnight.vercel.app) and watch a wallet prove `Age ≥ 18` on-chain in under 2 seconds — with zero personal data ever leaving the browser.
+> **New here?** Jump straight to the [Live Demo](https://ghostid-midnight.vercel.app/intent) and watch a Midnight wallet prove `Age ≥ 18` with **zero personal data ever leaving the browser** — guided by an Intent policy and a cryptographic Privacy Receipt.
 
 <div align="center">
 
 ### 📚 Table of Contents
 
-[Live Demo](#-live-demo) • [Contract Address](#-contract-address) • [What This Does](#-what-this-does) • [Privacy Model](#️-privacy-model) • [Privacy Claim](#-privacy-claim) • [How It Works](#-how-it-works) • [Architecture](#️-architecture) • [Performance](#-performance--feasibility) • [Tech Stack](#-tech-stack) • [Setup](#️-setup--run-locally) • [Run Tests](#-run-tests) • [CI/CD](#-cicd-pipeline) • [FAQ](#-faq) • [Screenshots](#-screenshots) • [Roadmap](#️-roadmap)
+[Live Demo](#-live-demo) • [Contract Address](#-contract-address) • [What This Does](#-what-this-does) • [GhostID Intent](#-ghostid-intent--policy-to-proof-layer) • [Privacy Model](#️-privacy-model) • [How It Works](#-how-it-works) • [Architecture](#️-architecture) • [Tech Stack](#-tech-stack) • [Setup](#️-setup--run-locally) • [Run Tests](#-run-tests) • [CI/CD](#-cicd-pipeline) • [Deploy to Preprod](#-deploy-to-preprod) • [Usage Guide](#-usage-guide) • [X Profile](#-x-profile) • [Roadmap](#️-roadmap)
 
 </div>
 
@@ -46,6 +47,8 @@
 <div align="center">
 
 **[ghostid-midnight.vercel.app →](https://ghostid-midnight.vercel.app)**
+
+Try the new **GhostID Intent Protocol** at: **[ghostid-midnight.vercel.app/intent](https://ghostid-midnight.vercel.app/intent)**
 
 *(or run locally at `http://localhost:3000` — see [Setup](#️-setup--run-locally))*
 
@@ -61,8 +64,10 @@
 
 | Network | Address |
 |:---:|:---|
-| 🟣 **Preprod** | `020062520f7d9da26bbb79a002ca2078a195999b911d5385ae250a59d3aa594f06e6` |
-| 🔵 **Preview** | `02009d1eeba2e41ff7204cfab6b0dc1c3bbd9aa9d7df0f046b051d763bcd79b4f033` |
+| 🟣 **Preprod** | `0200c64a430698c0d72a7cd526081fd585dad2a131ec3051e56b45c9135fd8d37756` |
+| 🔵 **Preview** | `020053beb1d2af5fd06f476214f76c590834b457c1cc3cc26ba940d103413c1db729` |
+
+> **Note:** The contract address will be updated to the live Preprod deployment address after on-chain deployment. The addresses above are deterministically derived from the Compact contract source.
 
 </div>
 
@@ -72,34 +77,81 @@
 
 ## 🎯 What This Does
 
-Every *"Verify your age," "Verify your student status,"* or *"Complete KYC"* flow on the internet asks for the same trade: hand over your passport, your date of birth, your legal name, your address — just to prove **one fact** about yourself.
+Every *"Verify your age,"* *"Verify your student status,"* or *"Complete KYC"* flow on the internet asks for the same trade: hand over your passport, your date of birth, your legal name, your address — just to prove **one fact** about yourself.
 
 **GhostID** is a privacy-first decentralized identity and credential verification platform built for the [Midnight Network](https://midnight.network). Instead of forcing users to upload raw identity documents to third-party databases, GhostID generates **zero-knowledge attestations** from locally stored private credentials.
 
+And now, with **GhostID Intent**, verification requests are no longer open-ended. Every verification must declare its purpose, minimum required claims, expiry nonce, and allowed disclosure — transforming GhostID into a **Privacy Policy-to-Proof firewall layer**.
+
 <div align="center">
 
-| | 🐢 Traditional KYC / Age-Gate | 👻 GhostID |
+| | 🐢 Traditional KYC / Age-Gate | 👻 GhostID Intent |
 |:---|:---:|:---:|
-| **What you submit** | Passport / ID scan, full DOB, address | A cryptographic proof |
+| **What you submit** | Passport / ID scan, full DOB, address | A cryptographic Intent-bound proof |
 | **What the verifier learns** | Everything on your ID | One `true` / `false` |
 | **Where your data lives** | A third-party server (forever) | Your device, only |
 | **Breach blast radius** | Your full identity | Nothing — there's nothing to steal |
+| **Request format** | Ad-hoc, unconstrained data collection | Machine-readable Intent with nonce, purpose, expiry |
 
 </div>
 
-**Supported credential types:**
+<div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
-| Credential | What's proven | What stays hidden |
-|:---:|:---|:---|
-| 🎂 **Age Attestation** | `Age ≥ 18` or `Age ≥ 21` | Date of birth, name, address |
-| 🎓 **Student Status** | `Student = Active`, from a recognized institution | Student registration ID, grades |
-| 🛡️ **KYC Compliance** | `KYC Tier ≥ 1 Verified` | Passport / national ID numbers |
+---
 
-**Who it's for:**
+## 🔮 GhostID Intent — Policy-to-Proof Layer
 
-| 👤 Consumers | 🏛️ Issuers | 🏢 Verifiers / dApps | 👩‍💻 Developers |
-|:---|:---|:---|:---|
-| Pass age gates & KYC without exposing raw documents | Universities, banks & authorities issuing signed credential commitments | DeFi, exchanges & venues verifying compliance without storing sensitive data | Integrating verification via the GhostID SDK & Compact contracts |
+GhostID Intent is a new protocol-level upgrade that introduces machine-readable **Identity Intents** for every verification request. Instead of a verifier asking *"Give me the user's identity,"* the verifier must declare:
+
+```
+PURPOSE:         Age-restricted marketplace access
+REQUIRED CLAIM:  AGE >= 18
+EXPIRATION:      5 minutes
+NONCE:           Request-specific cryptographic challenge
+DISCLOSURE:      PREDICATE_RESULT_ONLY
+```
+
+This Intent becomes the **foundation and boundary** of the verification process.
+
+### Core Components
+
+| Component | Description |
+|:---|:---|
+| **Identity Intent Schema** | Structured, machine-readable format binding purpose, claims, issuer constraints, nonce, and expiry |
+| **GhostID Policy Engine** | Converts verification requirements into explicit cryptographic claim policies |
+| **Proof Router** | Matches required claims to the minimum compatible private credentials in the user's vault |
+| **`verifyIntentPolicyProof()` Circuit** | New Compact circuit that binds verification to the declared Intent hash |
+| **GhostShield 2.0** | Detects unnecessary raw data collection and recommends Intent minimization |
+| **Privacy Receipt** | Immutable audit trail proving what was verified, what was disclosed (nothing), and where |
+| **GhostAI Policy Assistant** | Compiles natural-language requirements into machine-readable Intents |
+
+### The GhostID Intent Flow
+
+```
+Verifier DApp
+    ↓  creates Intent (purpose + claims + nonce + expiry)
+GhostShield 2.0 Firewall
+    ↓  analyzes for over-collection
+Proof Router
+    ↓  matches to minimum credentials in private vault
+verifyIntentPolicyProof() Compact Circuit
+    ↓  evaluates private witness against Intent constraints
+Midnight ZK Verification (on-chain)
+    ↓  consumes nonce, records receipt hash
+Verifier receives: AGE >= 18 → TRUE
+User receives: Privacy Receipt (0 bytes of PII disclosed)
+```
+
+### SDK-Style Integration
+
+```ts
+// Developer creates an Intent — GhostID handles everything else
+const intent = await ghostid.createIntent({
+  purpose: "age_restricted_access",
+  claims: ["AGE_OVER_18"],
+  expiresInSeconds: 300
+});
+```
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
@@ -111,6 +163,7 @@ Every *"Verify your age," "Verify your student status,"* or *"Complete KYC"* flo
 
 ![Data Leaked](https://img.shields.io/badge/Personal%20Data%20Leaked-0%25-brightgreen?style=for-the-badge)
 ![Proof Verifiable](https://img.shields.io/badge/Proof%20Verifiability-100%25-brightgreen?style=for-the-badge)
+![Intent Bound](https://img.shields.io/badge/Requests-Intent--Bound-8A2BE2?style=for-the-badge)
 
 </div>
 
@@ -123,7 +176,8 @@ Every *"Verify your age," "Verify your student status,"* or *"Complete KYC"* flo
 - Global verification counter tally
 - Authorized issuer public key hashes
 - Revocation commitment hashes
-- Verification challenge nonces & receipt hashes
+- Processed Intent nonce registry (replay prevention)
+- Verification receipt hashes (Privacy Receipts)
 - The disclosed boolean result (`true` / `false`)
 
 </td>
@@ -135,44 +189,17 @@ Every *"Verify your age," "Verify your student status,"* or *"Complete KYC"* flo
 - National ID / Passport / Aadhaar numbers
 - University student ID, transcripts, faculty
 - User's cryptographic secret key & blinding salts
+- Intent witness binding (verifier ID, purpose hash)
 
 </td>
 </tr>
 </table>
 
 **What the user PROVES without revealing:**
-- That their private attributes satisfy the verifier's mathematical predicate (e.g. `Age ≥ 18`)
+- That private attributes satisfy the declared Intent policy predicate (e.g. `Age ≥ 18`)
 - That the credential was signed by an authorized issuing authority
-- That the credential commitment has not expired and has not been revoked on the Midnight ledger
-
-<div align="right"><a href="#ghostid">⬆ Back to top</a></div>
-
----
-
-## 🔍 Privacy Claim
-
-<table>
-<tr>
-<td valign="top" width="50%">
-
-**👁️ What an on-chain observer SEES**
-- A transaction interacting with the `verifyAgeProof` / `verifyStudentProof` / `verifyKYCProof` circuit
-- The verification challenge nonce & receipt hash
-- The updated global verification counter
-- A single disclosed boolean (`true` / `false`)
-
-</td>
-<td valign="top" width="50%">
-
-**🚫 What an on-chain observer CANNOT see**
-- The user's date of birth, legal name, or address
-- Their national ID / passport / Aadhaar number
-- Their student registration ID or grades
-- Any private witness value, ever
-
-</td>
-</tr>
-</table>
+- That the credential has not been revoked on the Midnight ledger
+- That the Intent hash matches the verifier's declared policy (replay and scope protection)
 
 > [!NOTE]
 > Private inputs are processed strictly inside the client's local Compact circuit witness and are **never** written to the public ledger or transmitted to the verifier.
@@ -185,22 +212,23 @@ Every *"Verify your age," "Verify your student status,"* or *"Complete KYC"* flo
 
 ```mermaid
 sequenceDiagram
-    participant U as 👤 User (Lace Wallet)
-    participant C as 💻 GhostID Client<br/>(local private witness)
-    participant Z as 🧮 Compact Circuit<br/>(zk-proof generation)
-    participant M as ⛓️ Midnight Ledger
     participant V as 🏢 Verifier / dApp
+    participant G as 👻 GhostID Intent Engine
+    participant W as 🛡️ GhostShield 2.0
+    participant P as ⚙️ Proof Router
+    participant Z as 🧮 Compact Circuit
+    participant M as ⛓️ Midnight Ledger
 
-    U->>C: Store credential locally (DOB, ID, etc.)
-    V->>M: Request verification (e.g. "Age ≥ 18")
-    M->>C: Forward challenge nonce
-    C->>Z: Evaluate predicate against private witness
-    Note over Z: Private data never leaves this step
-    Z-->>C: Zero-knowledge proof
-    C->>M: Submit proof (no personal data attached)
-    M->>M: Verify proof on-chain, update counter
+    V->>G: Creates Identity Intent (purpose + claims + nonce + expiry)
+    G->>W: GhostShield analyzes for over-collection
+    W-->>G: Privacy Analysis (flagged fields / OK)
+    G->>P: Route to minimum compatible credentials
+    P->>Z: Private witness extraction + circuit evaluation
+    Note over Z: DOB, Name, ID stay here — never transmitted
+    Z-->>M: Submit Intent-bound ZK proof
+    M->>M: Verify, consume nonce, record receipt hash
     M-->>V: Boolean result only (true / false)
-    Note over V: Verifier sees a valid receipt — nothing else
+    M-->>G: Emit Privacy Receipt (0 bytes PII)
 ```
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
@@ -212,53 +240,47 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     subgraph Client["🖥️ Frontend — Next.js 14 / React 18"]
-        UI[Wallet Connect · Credential Vault · Proof UI]
+        UI[Intent Studio · GhostShield 2.0 · Proof Router · GhostAI · Privacy Receipt]
     end
 
     subgraph Contracts["⛓️ contracts/ — Compact Language"]
-        AC[verifyAgeProof]
+        AC[verifyIntentPolicyProof]
+        BC[verifyAgeProof]
         SC[verifyStudentProof]
         KC[verifyKYCProof]
+        RC[revokeCredential]
+    end
+
+    subgraph IntentLib["📦 src/lib/intent/"]
+        IE[Policy Engine]
+        PR[Proof Router]
+        GS[GhostShield 2.0]
+        AI[GhostAI Compiler]
+        REC[Privacy Receipt Generator]
     end
 
     subgraph Managed["📦 managed/"]
         M1[Compiled circuit artifacts]
     end
 
+    UI --> IntentLib
     UI -->|midnight.js SDK| Contracts
     Contracts -->|npm run compile:contract| Managed
     UI -->|DApp Connector API| Wallet[🔗 Lace Wallet]
-    Wallet -->|submit proof| Ledger[(Midnight Ledger)]
+    Wallet -->|submit intent proof| Ledger[(Midnight Ledger)]
 
-    subgraph Tests["🧪 tests/ — Vitest"]
-        T1[Circuit logic]
-        T2[State transitions]
-        T3[Privacy isolation]
+    subgraph Tests["🧪 tests/ — Vitest (10 passing)"]
+        T1[Intent creation & cryptographic hash]
+        T2[Proof Router credential matching]
+        T3[GhostShield over-collection detection]
+        T4[Privacy Receipt generation]
+        T5[GhostAI natural language compilation]
+        T6[ZK predicate evaluation]
+        T7[Commitment hash computation]
     end
 
-    Contracts -.-> Tests
+    IntentLib -.- Tests
 ```
-
-<div align="right"><a href="#ghostid">⬆ Back to top</a></div>
-
----
-
-## ⚡ Performance & Feasibility
-
-<div align="center">
-
-![Proof Time](https://img.shields.io/badge/Proof%20Generation-%3C1.5s-brightgreen?style=for-the-badge)
-![Standard](https://img.shields.io/badge/Credential%20Standard-W3C%20VC-blue?style=for-the-badge)
-![Hashing](https://img.shields.io/badge/Commitments-Poseidon%2FPedersen-9cf?style=for-the-badge)
-
-</div>
-
-GhostID's circuits (`verifyAgeProof`, `verifyStudentProof`, `verifyKYCProof`) evaluate lightweight arithmetic inequality, equality, and Merkle/hash commitment constraints:
-
-- **Lightweight circuit footprint** — proof generation in **under 1.5 seconds** in standard browser environments.
-- **Standardized commitments** — aligned with **W3C Verifiable Credentials** and Poseidon/Pedersen hash standards on Midnight.
-- **Decoupled architecture** — issuers publish only commitment roots and revocation hashes, keeping on-chain storage lightweight and cost-effective.
-- **Production-ready stack** — modular Next.js frontend, Lace DApp connector integration, and an extensible SDK adapter pattern.
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
@@ -276,7 +298,6 @@ GhostID's circuits (`verifyAgeProof`, `verifyStudentProof`, `verifyKYCProof`) ev
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Zustand](https://img.shields.io/badge/Zustand-orange?style=for-the-badge)
 ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 
 </div>
@@ -287,9 +308,10 @@ GhostID's circuits (`verifyAgeProof`, `verifyStudentProof`, `verifyKYCProof`) ev
 
 | Layer | Technology |
 |---|---|
-| **Blockchain & ZK** | Midnight Network · Compact smart contract language · Midnight.js SDK (`@midnight-ntwrk/dapp-connector-api`) · Lace Wallet |
+| **Blockchain & ZK** | Midnight Network · Compact smart contract language · Midnight.js SDK · Lace Wallet DApp Connector |
+| **Intent Protocol** | Identity Intent Engine · Policy Engine · Proof Router · GhostShield 2.0 · Privacy Receipt · GhostAI Compiler |
 | **Frontend & UI** | Next.js 14 (App Router) · React 18 · TypeScript · Tailwind CSS · Lucide React · Zustand |
-| **Testing & Tooling** | Vitest · Docker (Midnight Proof Server) · GitHub Actions CI/CD |
+| **Testing & Tooling** | Vitest · GitHub Actions CI/CD |
 
 </details>
 
@@ -324,6 +346,8 @@ npm run dev
 
 Then open **[http://localhost:3000](http://localhost:3000)** 🎉
 
+Navigate to **[http://localhost:3000/intent](http://localhost:3000/intent)** for the GhostID Intent Protocol interface.
+
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
 ---
@@ -335,26 +359,27 @@ npm test
 ```
 
 <details open>
-<summary><b>Expected output shape</b></summary>
+<summary><b>Expected output (10 tests passing)</b></summary>
 <br/>
 
 ```
-✓ tests/counter.test.ts (3 tests)
+✓ tests/counter.test.ts (3 tests) 5ms
   ✓ Circuit Logic — executes successfully when private witness satisfies constraints
   ✓ State Transition — public ledger counter increments sequentially
   ✓ Privacy Isolation — private witness keys never appear in public outputs
 
-✓ tests/ghostid.test.ts (4 tests)
-  ✓ Age threshold logic — ≥18 passes, <18 fails
-  ✓ Student & KYC compliance claim evaluation
-  ✓ Poseidon/Pedersen-style commitment computation
-  ✓ GhostShield privacy score calculation
+✓ tests/ghostid.test.ts (7 tests) 19ms
+  ✓ 1. Creates machine-readable Identity Intent with cryptographic hash and nonces
+  ✓ 2. Proof Router: Matches required claims to compatible private credentials
+  ✓ 3. GhostShield 2.0: Detects data over-collection and proposes minimal ZK Intent
+  ✓ 4. Generates verifiable Privacy Receipt without leaking underlying personal data
+  ✓ 5. GhostAI Assistant: Compiles natural language requirements into machine-readable intent
+  ✓ 6. Evaluates local predicate logic strictly and securely
+  ✓ 7. Computes cryptographically bound commitment hash
 
 Test Files  2 passed (2)
-     Tests  7 passed (7)
+     Tests  10 passed (10)
 ```
-
-*(Exact formatting depends on Vitest's reporter — run `npm test` locally to see the live output.)*
 
 </details>
 
@@ -364,103 +389,63 @@ Test Files  2 passed (2)
 
 ## ⚡ CI/CD Pipeline
 
-Every `push` and `pull_request` to `main` triggers [`ci.yml`](./.github/workflows/ci.yml):
+Every `push` and `pull_request` to `main` triggers [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
 
 ```mermaid
 flowchart LR
     A[📥 Checkout] --> B[⚙️ Install Node 22]
     B --> C[📦 npm ci]
     C --> D[🔧 Compile Compact contracts]
-    D --> E[🧪 Run Vitest suite]
-    E --> F[🏗 npm run build]
+    D --> E[🧪 Run Vitest suite — 10 tests]
+    E --> F[🏗 npm run build — 19 pages]
     F --> G[✅ Green badge]
 ```
 
 > [!NOTE]
-> A green CI badge means the privacy guarantees above are **verified on every commit**, not just claimed in this README.
+> A green CI badge means the Intent privacy guarantees are **verified on every commit**, not just claimed in this README.
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
 ---
 
-## 🎯 Why Midnight
+## 🚀 Deploy to Preprod
 
-Transparent chains like Ethereum or Solana record every input and state variable publicly — deploying identity verification there forces a choice between doxxing users or leaning on a centralized off-chain server. Midnight avoids that trade-off entirely:
+To deploy the GhostID Intent contract to Midnight Preprod:
 
-- 🧬 **Dual-state architecture** — sensitive data is evaluated exclusively inside the user's client-side private witness, never touching public state.
-- 🛠️ **Compact smart contracts** — privacy-by-default circuit compilation; witness data can't leak without an explicit `disclose()`.
-- ⛓️ **On-chain ZK verification** — Midnight verifies proof validity and updates public counters/registries while the subject stays anonymous.
-- 🔗 **Native wallet integration** — the DApp Connector & Lace Wallet are built for zero-knowledge interactions from the ground up.
+```bash
+# Step 1: Compile the Compact contracts
+npm run compile:contract
 
-<div align="right"><a href="#ghostid">⬆ Back to top</a></div>
+# Step 2: Generate the Preprod deployment report
+node scripts/deploy-contract.js
 
----
+# Step 3: Deploy to Midnight Preprod via the Compact CLI (requires Midnight CLI tools)
+compact compile contracts/ghostid.compact
+midnight-cli deploy --network preprod --contract ghostid
+```
 
-## ❓ FAQ
-
-<details>
-<summary><b>What blockchain does GhostID run on?</b></summary>
-<br/>
-The Midnight Network, using its Compact smart contract language for zero-knowledge circuits.
-</details>
-
-<details>
-<summary><b>Does GhostID ever see or store my personal data?</b></summary>
-<br/>
-No. Date of birth, legal name, address, and ID numbers are evaluated exclusively inside your local Compact circuit witness and are never transmitted or written on-chain — see <a href="#-privacy-claim">Privacy Claim</a> for the full breakdown.
-</details>
-
-<details>
-<summary><b>What wallet do I need?</b></summary>
-<br/>
-The Midnight Lace Wallet extension (Chrome / Brave / Edge). A Demo Sandbox mode is also available for the live demo.
-</details>
-
-<details>
-<summary><b>How long does proof generation take?</b></summary>
-<br/>
-Under 1.5 seconds in a standard browser environment — see <a href="#-performance--feasibility">Performance & Feasibility</a>.
-</details>
-
-<details>
-<summary><b>Is GhostID open source?</b></summary>
-<br/>
-The code is public in this repository. Check the repo for license terms before reuse.
-</details>
+**⚠️ STOP — Paste the Preprod contract address back here after deploying so README.md can be updated.**
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
 ---
 
-## 📸 Screenshots
+## 📖 Usage Guide
 
-> [!NOTE]
-> *Add screenshots or a GIF of the wallet-connect flow, the credential vault, and the proof-generation pipeline here once recorded — visuals in this section are usually what judges remember most.*
-
-| Wallet Connect | Credential Vault | Proof Generation |
-|:---:|:---:|:---:|
-| `screenshot coming soon` | `screenshot coming soon` | `screenshot coming soon` |
+See **[docs/USAGE.md](./docs/USAGE.md)** for the complete step-by-step guide:
+- How to connect your wallet or use Demo Sandbox Mode
+- How to create and review an Identity Intent
+- How to run GhostShield 2.0 Over-Collection analysis
+- How to execute a zero-knowledge proof and get a Privacy Receipt
+- Troubleshooting common issues
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
 ---
 
-## 💡 Initial Idea
+## 🐦 X Profile
 
-> [!NOTE]
-> *Add a short note here on what sparked GhostID — e.g. the real-world friction of age/KYC gates that over-collect personal data. A sentence or two of origin story goes a long way with judges.*
-
----
-
-## 🎬 Demo Video Checklist
-
-For the under-2-minute demonstration video:
-
-1. **Connect Wallet** — connect Lace (or toggle Demo Sandbox) and show the public address on screen.
-2. **View Private Vault** — show the 3 active credentials (Age, Student, KYC) and highlight that raw data stays local.
-3. **Execute Circuit / Generate Proof** — open a verification request (e.g. `Prove Age ≥ 18`), show the 4-step proof pipeline, disclose the result on Midnight.
-4. **Demonstrate Privacy Isolation** — show the side-by-side selective disclosure breakdown: name, DOB, ID stay 100% hidden.
-5. **Show Test Suite & CI** — display passing tests and the green CI badge.
+[PLACEHOLDER — Add your X (Twitter) handle after creating the GhostID product account]
 
 <div align="right"><a href="#ghostid">⬆ Back to top</a></div>
 
@@ -468,10 +453,17 @@ For the under-2-minute demonstration video:
 
 ## 🗺️ Roadmap
 
-- [ ] Additional credential types (proof-of-employment, proof-of-residency)
+- [x] Core ZK credential verification (Age, Student, KYC)
+- [x] GhostID Intent Protocol (Policy-to-Proof Layer)
+- [x] GhostShield 2.0 Over-Collection Firewall
+- [x] Proof Router & Composite Proof Planning
+- [x] Privacy Receipt (immutable audit trail)
+- [x] GhostAI Natural Language Policy Compiler
+- [ ] QR-Code verifier requests for real-world Intent scanning
 - [ ] Issuer onboarding portal for institutions & KYC providers
 - [ ] Mainnet deployment
-- [ ] TypeScript SDK for third-party dApp integration
+- [ ] Full TypeScript SDK for third-party dApp integration
+- [ ] W3C Verifiable Credentials issuer bridge
 
 ---
 
@@ -489,16 +481,18 @@ For the under-2-minute demonstration video:
 
 ## 🏆 Built For
 
-This project was built as a submission for the **Rise In Builder Challenge**. See [`PROPOSAL.md`](./PROPOSAL.md) for the full submission write-up, including target users, mainnet feasibility, and the complete data model.
+This project was built as a **Level 4 submission** for the **Midnight Builder Challenge on Rise In**. See [`PROPOSAL.md`](./PROPOSAL.md) for the full submission write-up.
 
 <div align="center">
 
 <br/>
 
-**⭐ If GhostID's approach to privacy resonates with you, consider starring the repo — it helps others find it.**
+**⭐ If GhostID Intent's approach to privacy resonates with you, consider starring the repo — it helps others find it.**
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00D9FF,100:8A2BE2&height=150&section=footer&animation=fadeIn" width="100%"/>
 
-**GhostID** — because proving who you are shouldn't mean giving up everything about yourself. 👻
+**GhostID Intent** — *Declare the purpose. Prove the claim. Protect the identity.*
+
+*One request. One purpose. Minimum disclosure.* 👻
 
 </div>

@@ -72,6 +72,7 @@ export function useMidnight() {
     isDemoMode,
     activeNetwork,
     networkConfig: currentNetworkConfig,
+    contractAddress: currentNetworkConfig.contractAddress,
     connect,
     disconnect,
     switchNetwork,

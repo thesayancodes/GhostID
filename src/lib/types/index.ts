@@ -1,5 +1,5 @@
 // ============================================================================
-// GHOSTID Core TypeScript Definitions & Domain Types
+// GHOSTID INTENT: Core TypeScript Definitions & Domain Types
 // ============================================================================
 
 export type CredentialType = "AGE" | "STUDENT" | "KYC" | "CUSTOM";
@@ -63,6 +63,71 @@ export interface GhostCredential {
   };
 }
 
+// ----------------------------------------------------------------------------
+// GHOSTID INTENT PROTOCOL TYPES
+// ----------------------------------------------------------------------------
+
+export interface IntentClaim {
+  id: string;
+  credentialType: CredentialType;
+  claimKey: string;
+  description: string;
+  predicate: ">=" | "==" | "<=" | "truthy";
+  requiredValue: string | number | boolean;
+  isOptional?: boolean;
+}
+
+export interface IdentityIntent {
+  intentId: string;
+  verifierId: string;
+  verifierName: string;
+  verifierLogo?: string;
+  verifierAddress?: string;
+  purpose: string;
+  requiredClaims: IntentClaim[];
+  optionalClaims?: IntentClaim[];
+  issuerRequirements?: string[];
+  expiresInSeconds: number;
+  expiresAt: string;
+  nonce: string;
+  allowedDisclosure: "PREDICATE_RESULT_ONLY" | "SELECTIVE_DISCLOSURE";
+  context?: string;
+  intentHash: string;
+  createdAt: string;
+}
+
+export interface ProofPlan {
+  intentId: string;
+  matchedCredentials: {
+    claimKey: string;
+    credentialId: string;
+    credentialType: CredentialType;
+    credentialTitle: string;
+    canSatisfy: boolean;
+  }[];
+  allClaimsSatisfiable: boolean;
+  compositeCircuit: string;
+  estimatedProofTimeMs: number;
+}
+
+export interface PrivacyReceipt {
+  receiptId: string;
+  verifier: string;
+  verifierAddress?: string;
+  purpose: string;
+  claimsProven: string[];
+  result: "VERIFIED" | "FAILED";
+  rawIdentityDisclosed: false;
+  requestId: string;
+  intentHash: string;
+  nonce: string;
+  timestamp: string;
+  receiptHash: string;
+  contractAddress?: string;
+  txHash?: string;
+  mode: "REAL_MIDNIGHT" | "SIMULATED_DEMO";
+}
+
 export interface VerificationRequest {
   id: string;
   verifierName: string;
@@ -96,6 +161,7 @@ export interface ZKProofPayload {
     kycTier?: number;
     nonce: string;
     verified: boolean;
+    intentHash?: string;
   };
   proofString: string;
   mode: "REAL_MIDNIGHT" | "SIMULATED_DEMO";
@@ -120,6 +186,7 @@ export interface VerificationResult {
   hiddenProtectedData: string[];
   issuerTrustScore: number;
   privacyScore: number;
+  privacyReceipt?: PrivacyReceipt;
 }
 
 export interface ActivityRecord {
@@ -131,6 +198,7 @@ export interface ActivityRecord {
   status: "VERIFIED" | "REJECTED" | "REVOKED";
   mode: "REAL_MIDNIGHT" | "SIMULATED_DEMO";
   proofHash: string;
+  receiptHash?: string;
   expiresIn?: string;
   canRevoke: boolean;
 }

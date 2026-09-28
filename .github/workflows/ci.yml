@@ -1,4 +1,4 @@
-name: GhostID Midnight CI/CD
+name: GhostID Intent — Midnight CI/CD
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build, Compile Circuits & Run ZK Tests
+    name: Build, Compile Circuits & Run ZK Intent Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -24,11 +24,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci || npm install
 
-      - name: Compile Compact Contracts
+      - name: Compile Compact Contracts (GhostID Intent Circuits)
         run: npm run compile:contract
 
-      - name: Run Test Suite (Circuits, State Transitions, Privacy Isolation)
+      - name: Run Test Suite (Intent Engine, Proof Router, Privacy Receipt, ZK Predicates)
         run: npm test
 
-      - name: Build Next.js Production Application
+      - name: Build Next.js Production Application (19 routes including /intent)
         run: npm run build
